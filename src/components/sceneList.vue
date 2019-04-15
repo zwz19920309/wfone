@@ -1,7 +1,7 @@
 <template>
   <el-table border :data="sceneList" stripe style="width: 100%">
     <el-table-column prop="name" label="名称" width="180"></el-table-column>
-    <el-table-column prop="desc" label="描述"></el-table-column>
+    <el-table-column prop="note" label="描述121"></el-table-column>
     <el-table-column prop="createdAt" label="创建时间"></el-table-column>
   </el-table>
 </template>

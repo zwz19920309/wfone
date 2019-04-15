@@ -56,11 +56,6 @@ export const getSceneList = data => fetch('/admin/scene/getSceneList', data, 'PO
 export const addScene = data => fetch('/admin/scene/addScene', data, 'POST')
 
 /**
- * 新建场景签到活动数据
- */
-export const addScenesign = data => fetch('/admin/scenesign/addScenesign', data, 'POST')
-
-/**
  * 批量新建场景签到活动数据
  */
 export const bulkAddScenesign = data => fetch('/admin/scenesign/bulkAddScenesign', data, 'POST')
@@ -69,11 +64,6 @@ export const bulkAddScenesign = data => fetch('/admin/scenesign/bulkAddScenesign
  */
 
 export const bulkDeleteScenesign = data => fetch('/admin/scenesign/bulkDeleteScenesign', data, 'POST')
-
-/**
- * 获取签到场景列表
- */
-export const getScenesignList = data => fetch('/admin/scenesign/getScenesignList', data, 'POST')
 
 /**
  * 根据id获取签到场景

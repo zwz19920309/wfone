@@ -5,7 +5,7 @@
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column prop="date" label="签到类型" width="180">
         <template slot-scope="scope" >
-          <span>{{scope.row.checkin_type.name}}</span>
+          <span>{{scope.row.checktypename}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="签到周期" width="180">

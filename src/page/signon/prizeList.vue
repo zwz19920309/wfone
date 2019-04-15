@@ -30,7 +30,7 @@
       </div>
       <div>
         <prize-list-dialog :sizeChange="handleSizeChange" :currentChange="handleCurrentChange" :isEdit="isEdit" :total="total"  :prizeList="prizeList" ref="prizeListRef"></prize-list-dialog>
-      </div>     
+      </div>
     </div>
   </div>
 </template>

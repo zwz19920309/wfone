@@ -3,7 +3,7 @@
     <el-table border :data="prizeList" stripe style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" v-if="isEdit"> </el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="desc" label="描述" width="250"></el-table-column>
+      <el-table-column prop="note" label="描述" width="250"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"></el-table-column>
       <el-table-column prop="desc" label="操作" width="180" v-if="isEdit">
         <template slot-scope="scope">
