@@ -22,7 +22,7 @@
         {{ item.label }}
       </el-button>
     </div>
-   </div>      
+   </div>
 </template>
 
 <script>
