@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
   baseUrl = 'http://localhost:3001/bonus'
   baseImgPath = 'http://localhost:3002/'
 } else {
-  baseUrl = '/nangua'
+  baseUrl = 'http://192.168.1.38:3001/bonus'
   baseImgPath = '//elm.cangdu.org/img/'
 }
 
