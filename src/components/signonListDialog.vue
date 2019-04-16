@@ -41,7 +41,7 @@ export default {
     async initData () {
       if (!this.cSignonList.length) {
         let res = await getSignonList()
-        if ((res.code === 0) && (res.data.list.length)) {
+        if ((res.status === 200) && (res.data.list.length)) {
           this.cSignonList = res.data.list
         }
       }

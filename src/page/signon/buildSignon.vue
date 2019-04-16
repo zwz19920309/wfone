@@ -88,7 +88,7 @@ export default {
       this.params.name = this.name
       this.params.desc = this.desc
       let res = await addSignon(this.params)
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
       }
     }

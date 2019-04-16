@@ -26,7 +26,7 @@ export default {
   methods: {
     async initData () {
       let res = await getCheckInTypeList()
-      if ((res.code === 0) && (res.data.list.length)) {
+      if ((res.status === 200) && (res.data.list.length)) {
         this.options = res.data.list
       }
     },

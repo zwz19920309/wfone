@@ -34,7 +34,7 @@ export default {
   methods: {
     async submit () {
       let res = await addScene({name: this.name, desc: this.desc})
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.$message({ message: '添加成功', type: 'success' })
       }
     }

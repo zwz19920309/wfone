@@ -44,7 +44,7 @@ export default {
   methods: {
     async initData (params) {
       let res = await getSignonList({page: params.currentPage, pageSize: params.pageSize})
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.signonList = res.data.list
         this.pageInfo.total = res.data.count
       }

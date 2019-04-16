@@ -49,7 +49,7 @@ export default {
     async initData () {
       let res = await getSceneList(this.params)
       console.log('@data: ', res)
-      if ((res.code === 0) && (res.data.list.length)) {
+      if ((res.status === 200) && (res.data.list.length)) {
         this.sceneList = res.data.list
       }
     },
@@ -57,7 +57,7 @@ export default {
       this.scene = row
       this.handleType = type
       let res = await getSignonListBySceneId({ sceneId: this.scene.id, type: this.handleType })
-      if ((res.code === 0) && (res.data.list.length)) {
+      if ((res.status === 200) && (res.data.list.length)) {
         this.signonList = res.data.list
       } else {
         if (this.handleType === 1) {  
@@ -80,7 +80,7 @@ export default {
       } else {
         res = await bulkDeleteScenesign({ scenesignons: scenesignons })
       }
-      if (res && res.code === 0) {
+      if (res && res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
         this.$refs.signonListRef.close()
       } else {

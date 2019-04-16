@@ -53,7 +53,7 @@ export default {
     async handleDelete (row) {
       this.$confirm('确认删除该选项?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(async () => {
         let res = await deletePrize({ id: row.id })
-        if (res.code === 0) {
+        if (res.status === 200) {
           this.$message({ message: '删除成功', type: 'success' })
           this.callBack && this.callBack()
         }
@@ -72,7 +72,7 @@ export default {
         ids.push(ele.id)
       })
       let res = await bulkDeletePrize({ 'ids': ids })
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.$message({ message: '删除成功', type: 'success' })
         this.callBack && this.callBack()
       }

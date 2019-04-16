@@ -82,7 +82,7 @@ export default {
       console.log('@row: ', row)
       this.$confirm('确认删除该选项?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(async () => {
         let res = await deleteSignon({ id: row.id })
-        if (res.code === 0) {
+        if (res.status === 200) {
           this.$message({ message: '删除成功', type: 'success' })
           this.callBack && this.callBack()
         }
@@ -98,7 +98,7 @@ export default {
         ids.push(ele.id)
       })
       let res = await bulkDeleteSignOn({ 'ids': ids })
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.$message({ message: '删除成功', type: 'success' })
         this.callBack && this.callBack()
       }
@@ -106,7 +106,7 @@ export default {
     async handleSignOn (data) {
       console.log('@handleSignOn: ', data)
       let res = await updateSignonById({ number: data.cycleNum, id: this.signon.id, name: data.name, checkinTypeId: data.checkinype, dateTypeId: data.datetype, ruleDesc: data.rule_desc, startAt: data.startAt, endAt: data.endAt })
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.$message({ message: '修改成功', type: 'success' })
         this.$refs.editSignon.close()
         this.callBack && this.callBack()

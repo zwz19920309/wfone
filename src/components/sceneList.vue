@@ -23,7 +23,7 @@ export default {
   methods: {
     async initData () {
       let res = await getSceneList()
-      if ((res.code === 0) && (res.data.list.length)) {
+      if ((res.status === 200) && (res.data.list.length)) {
         this.sceneList = res.data.list
       }
     }

@@ -67,7 +67,7 @@ export default {
     async initData (id) {
       let res = await getSignonById({ id: id })
       let prizes = []
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.signon = res.data
         this.cycleNum = this.signon.cycle_text.number ? this.signon.cycle_text.number : DATETYPEVALUE[this.signon.cycle_text.type]
         for (let m = 1; m <= this.cycleNum; m++) {
@@ -104,7 +104,7 @@ export default {
       } else {
         res = await signonBulkDeletePrizes({ id: this.signon.id, prizeIds: prizeIds, number: this.prize.index, type: this.type })
       }
-      if (res.code === 0) {
+      if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
         this.$refs.prizeListRef.close()
         this.initData(this.sceneId)
@@ -114,7 +114,7 @@ export default {
     },
     async getPrizesBySignon () {
       let res = await getPrizesBySignonById({ id: this.signon.id, number: this.prize.index, type: this.type, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
-      if (res.code === 0) {
+      if (res.status === 200) {
         if (!res.data.list || res.data.list.length < 1) {
           return false
         }

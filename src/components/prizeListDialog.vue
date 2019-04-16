@@ -34,7 +34,7 @@ export default {
     async initData (pageInfo) {
       if (this.cPrizeList && (this.cPrizeList.length < 1)) {
         let res = await getPrizeList(pageInfo)
-        if (res.code === 0) {
+        if (res.status === 200) {
           this.cPrizeList = res.data.list
           this.cTotal = res.data.total
         }
