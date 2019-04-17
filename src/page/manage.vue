@@ -7,7 +7,7 @@
 					<el-submenu index="1">
 						<template slot="title"><i class="el-icon-plus"></i>场景管理</template>
 						<el-menu-item index="sceneList"><i class="el-icon-tickets"></i>场景列表</el-menu-item>
-						<el-menu-item index="buildScene"><i class="el-icon-edit"></i>新建场景</el-menu-item>
+						<!-- <el-menu-item index="buildScene"><i class="el-icon-edit"></i>新建场景</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="2">
 						<template slot="title"><i class="el-icon-plus"></i>签到活动模板管理</template>

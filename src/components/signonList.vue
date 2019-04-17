@@ -35,7 +35,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="pad10 t-right" v-if="isEdit"> 
+    <div class="pad10 t-right" v-if="isEdit && signonList.length"> 
       <!-- <el-button type="primary" @click="handleBluckEdit()">批量删除</el-button>  -->
       <el-button v-for="(item, key) in cDynamic.bluckActionbutton" :key="key" :type="item.type" :size="item.size" @click="func(item.action, prizes)">
         {{ item.label }}
@@ -74,12 +74,10 @@ export default {
       func && func(data)
     },
     async handleEdit (row) {
-      console.log('@EditData: ', row)
       this.signon = row
       this.$refs.editSignon.open()
     },
     async handleDelete (row) {
-      console.log('@row: ', row)
       this.$confirm('确认删除该选项?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(async () => {
         let res = await deleteSignon({ id: row.id })
         if (res.status === 200) {
@@ -92,7 +90,6 @@ export default {
       this.signons = data
     },
     async handleBluckEdit () {
-      console.log('@handleBluckEdit: ', this.signons)
       let ids = []
       this.signons.forEach(ele => {
         ids.push(ele.id)
@@ -104,7 +101,6 @@ export default {
       }
     },
     async handleSignOn (data) {
-      console.log('@handleSignOn: ', data)
       let res = await updateSignonById({ number: data.cycleNum, id: this.signon.id, name: data.name, checkinTypeId: data.checkinype, dateTypeId: data.datetype, ruleDesc: data.rule_desc, startAt: data.startAt, endAt: data.endAt })
       if (res.status === 200) {
         this.$message({ message: '修改成功', type: 'success' })

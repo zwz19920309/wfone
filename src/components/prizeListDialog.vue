@@ -19,7 +19,7 @@ export default {
       dialogShow: false,
       cPrizeList: this.prizeList || [],
       cData: [],
-      cTotal: 0,
+      cTotal: 10,
       pageInfo: {
         currentPage: 1,
         pageSize: 10
@@ -66,7 +66,7 @@ export default {
       this.cPrizeList = newVal
     },
     'total': function (newVal, oldVal) {
-      this.cTotal = newVal
+     // this.cTotal = newVal
     }
   }
 }

@@ -56,6 +56,16 @@ export const getSceneList = data => fetch('/admin/scene/getSceneList', data, 'PO
 export const addScene = data => fetch('/admin/scene/addScene', data, 'POST')
 
 /**
+ * 新建签到场景
+ */
+export const updateScene = data => fetch('/admin/scene/updateScene', data, 'POST')
+
+/**
+ * 批量删除签到场景
+ */
+export const bulkDeleteScene = data => fetch('/admin/scene/bulkDeleteScene', data, 'POST')
+
+/**
  * 批量新建场景签到活动数据
  */
 export const bulkAddScenesign = data => fetch('/admin/scenesign/bulkAddScenesign', data, 'POST')
