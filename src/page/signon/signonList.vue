@@ -39,6 +39,7 @@ export default {
     'edit-signon-dialog': () => import('@/components/editSignonDialog.vue')
   },
   created () {
+    
     this.initData(this.pageInfo)
   },
   methods: {
