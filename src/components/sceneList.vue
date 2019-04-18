@@ -4,11 +4,11 @@
       <el-table-column type="selection" width="55" v-if="isEdit"> </el-table-column>
       <el-table-column prop="name" label="名称"  width="180"></el-table-column>
       <el-table-column prop="note" label="描述"></el-table-column>
-      <el-table-column prop="start_at" :formatter="dateFormat" label="开始时间"></el-table-column>
-      <el-table-column prop="end_at" :formatter="dateFormat" label="结束时间"></el-table-column>
+      <!-- <el-table-column prop="start_at" :formatter="dateFormat" label="开始时间"></el-table-column>
+      <el-table-column prop="end_at" :formatter="dateFormat" label="结束时间"></el-table-column> -->
       <el-table-column label="详情">
         <template slot-scope="scope">
-          <span class="detail">活动列表</span>
+          <span class="detail" @click="toSceneSignonList(scope.$index, scope.row)">签到活动列表</span>
         </template>
       </el-table-column>
       <el-table-column prop="desc" label="操作" width="180" v-if="isEdit">
@@ -120,7 +120,10 @@ export default {
     dateFormat (row, column) {
       let date = new Date(row[column.property])
       return date.getFullYear() + '年' + (date.getMonth()+1) + '月' +date.getDate() + '日 '
-    }  
+    },
+    toSceneSignonList (index, row) {
+      this.$router.push({ path: '/scenesignon', query: { id: row.id } })
+    }
   },
   props: ['sceneList', 'isEdit', 'callBack', 'dynamic'], // isEdit false: 只显示：true: 可操作, 'dynamic': 外部传入操作按钮详情以及回调函数
   watch: {

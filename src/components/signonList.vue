@@ -14,34 +14,36 @@
           <span v-if="scope.row.cycle_text.type == 5">:{{scope.row.cycle_text.number}}(天)</span>
         </template>
       </el-table-column>
-      <el-table-column prop="rule_desc" label="规则描述" width="250"></el-table-column>
-      <el-table-column label="奖品管理" width="150">
+      <el-table-column v-if="!simplify" prop="rule_desc" label="规则描述" width="250" ></el-table-column>
+      <el-table-column label="奖品管理" width="150" v-if="!simplify">
         <template slot-scope="scope" >
           <div>
-            <span class="price_detial" @click="toPrizeList(scope.$index, scope.row)">奖品详情</span>
+            <span class="detial" @click="toPrizeList(scope.$index, scope.row)">奖品详情</span>
           </div>  
         </template>
       </el-table-column>
-      <el-table-column prop="start_at" label="开始时间"></el-table-column>
-      <el-table-column prop="end_at" label="结束时间"></el-table-column>
-      <el-table-column prop="createdAt" label="创建时间"></el-table-column>
+      <el-table-column label="生效时间" width="150" v-if="isDate">
+        <template slot-scope="scope" >
+          <span v-if="scope.row.start_at">{{scope.row.start_at}}--{{scope.row.end_at}}</span>
+          <span class="detail" v-if="!scope.row.start_at" @click="openEditDate(scope.$index, scope.row)">添加时间</span>  
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="createdAt" label="创建时间" v-if="!simplify"></el-table-column> -->
       <el-table-column prop="desc" label="操作" width="180" v-if="isEdit">
         <template slot-scope="scope">
           <el-button v-for="(item, key) in cDynamic.actionbutton" :key="key" :type="item.type" :size="item.size" @click="func(item.action, scope.row)">
             {{ item.label }}
           </el-button>
-          <!-- <el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="mini" @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>
-    <div class="pad10 t-right" v-if="isEdit && signonList.length"> 
-      <!-- <el-button type="primary" @click="handleBluckEdit()">批量删除</el-button>  -->
-      <el-button v-for="(item, key) in cDynamic.bluckActionbutton" :key="key" :type="item.type" :size="item.size" @click="func(item.action, prizes)">
+    <div class="pad10 t-right" v-if="isEdit"> 
+      <el-button v-for="(item, key) in cDynamic.bluckActionbutton" v-if="(!item.hide) || signonList.length" :key="key" :type="item.type" :size="item.size" @click="func(item.action, signons)">
         {{ item.label }}
       </el-button>
     </div>
     <div><edit-signon-dialog :callBack="handleSignOn"  :signon="signon" ref="editSignon"></edit-signon-dialog></div>
+    <div><date-dialog :callBack="handleDate" ref="dateRef"></date-dialog></div>
    </div>      
 </template>
 
@@ -49,7 +51,8 @@
 import { deleteSignon, bulkDeleteSignOn, updateSignonById } from '@/api/getData'
 export default {
   components: {
-    'edit-signon-dialog': () => import('@/components/editSignonDialog.vue')
+    'edit-signon-dialog': () => import('@/components/editSignonDialog.vue'),
+    'date-dialog': () => import('@/components/dateDialog.vue')
   },
   data () {
     let that = this
@@ -75,6 +78,7 @@ export default {
     },
     async handleEdit (row) {
       this.signon = row
+      console.log('@sign: ', this.signon)
       this.$refs.editSignon.open()
     },
     async handleDelete (row) {
@@ -108,16 +112,25 @@ export default {
         this.callBack && this.callBack()
       }
     },
+    async openEditDate (index, row) {
+      this.signon = row
+      this.$refs.dateRef.open()
+    },
+    async handleDate (data) {
+      this.signon.start_at = data.start_at
+      this.signon.end_at = data.end_at 
+      this.$refs.dateRef.close()
+    },
     toPrizeList (index, row) {
       this.$router.push({ path: '/prizeList', query: { id: row.id } })
     }
   },
-  props: ['signonList', 'isEdit', 'callBack', 'dynamic']
+  props: ['signonList', 'isEdit', 'isDate', 'simplify', 'callBack', 'dynamic']
 }
 </script>
 
 <style lang="less">
-.price_detial {
+.detail {
   padding: 0 5px;
   text-decoration: underline;
   color: #409EFF;

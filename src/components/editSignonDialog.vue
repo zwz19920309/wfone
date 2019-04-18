@@ -24,11 +24,6 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="pad10">
-        <span>开始时间与结束时间：</span>
-        <el-date-picker @change.native="changeUpDate"  value-format="yyyy-MM-dd"  format="yyyy 年 MM 月 dd 日"  v-model="cSignon.datePeriod" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker>
-      </div>
       <div class="pad10 t-right">
         <el-button type="primary"  @click="submit">确认修改</el-button>
       </div>
@@ -45,7 +40,7 @@ export default {
   },
   data () {
     return {
-      cSignon: { datePeriod: '', name: '', rule_desc: '', period: '', checkinype: 1, datetype: 1, cycleNum: '0' },
+      cSignon: { name: '', rule_desc: '', period: '', checkinype: 1, datetype: 1, cycleNum: '0' },
       dialogShow: false,
       cycleNum: 0
     }
@@ -79,10 +74,9 @@ export default {
   props: ['signon', 'callBack'],
   watch: {
     'signon': function (newVal, oldVal) {
+      console.log('@changeSizeon: ', newVal)
       if (newVal) {
-        this.cSignon = { name: newVal.name, rule_desc: newVal.rule_desc, checkinype: newVal.checkin_type.type, datetype: newVal.cycle_text.type }
-        this.cSignon.cycleNum = this.signon.cycle_text.number ? this.signon.cycle_text.number : DATETYPEVALUE[this.signon.cycle_text.type]
-        this.cSignon.datePeriod = [ this.signon.start_at, this.signon.end_at ]
+        this.cSignon = { name: newVal.name, rule_desc: newVal.rule_desc, checkinype: newVal.checktypetype, datetype: newVal.cycle_text.type, cycleNum: newVal.cycle_text.number || DATETYPEVALUE[newVal.cycle_text.type] }
       }
     }
   }

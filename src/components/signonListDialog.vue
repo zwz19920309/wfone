@@ -1,22 +1,7 @@
 <template>
   <el-dialog  title="签到活动列表" :visible.sync="dialogShow">
-    <el-table border ref="multipleTable" :data="cSignonList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="date" label="签到类型" width="180">
-        <template slot-scope="scope" >
-          <span>{{scope.row.checktypename}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="签到周期" width="180">
-        <template slot-scope="scope">
-          <span>{{scope.row.cycle_text.name}}</span>
-          <span v-if="scope.row.cycle_text.type == 5">:{{scope.row.cycle_text.number}}(天)</span>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div  class="mar10 pad10 t-right">
-      <el-button type="primary" @click="inSure">确认</el-button>
+    <div>
+      <signon-list :isDate="isDate" :simplify="simplify" :dynamic="dynamic" :isEdit="isEdit" :signonList="cSignonList" ></signon-list>
     </div>
   </el-dialog>
 </template>
@@ -25,13 +10,17 @@
 import { getSignonList } from '@/api/getData'
 export default {
   components: {
+    'signon-list': () => import('@/components/signonList.vue'),
   },
   data () {
     return {
       value: '',
       dialogShow: false,
       cSignonList: this.signonList || [],
-      cData: []
+      cData: [],
+      dynamic: null,
+      isEdit: true,
+      simplify: true
     }
   },
   created () {
@@ -52,14 +41,16 @@ export default {
     inSure () {
       this.callBack && this.callBack(this.cData)
     },
-    open () {
+    open (params) {
+      this.dynamic = params.dynamic
+      this.isEdit = params.isEdit || this.isEdit
       this.dialogShow = true
     },
     close () {
       this.dialogShow = false
     }
   },
-  props: ['callBack', 'signonList'],
+  props: ['callBack', 'signonList', 'isDate'],
   watch: {
     'signonList': function (newVal, oldVal) {
       this.cSignonList = newVal

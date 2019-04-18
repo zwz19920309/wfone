@@ -25,11 +25,6 @@
         </el-form>
       </div>
       <div class="pad10">
-        <span>开始时间与结束时间：</span>
-        <el-date-picker @change="getDatePeriod" :default-time="['00:00:00']" v-model="datePeriod" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-        </el-date-picker>
-      </div>
-      <div class="pad10">
         <el-button type="primary" @click="submit">确认提交</el-button>
       </div>
     </div>
@@ -67,21 +62,13 @@ export default {
   },
   methods: {
     getDateType (data) {
-      console.log('@callBack: ', data.name)
       this.dateType = data
       this.params.dateType = this.dateTypeVal = this.dateType.type
     },
     getCheckinType (data) {
-      console.log('@callBack: ', data.name)
       this.checkinType = data
       this.params.checkinType = this.checkinTypeVal = data.type
       console.log(this.checkinTypeVal)
-    },
-    getDatePeriod (dates) {
-      console.log('@dates: ', dates)
-      this.params.startAt = dateFormat(dates[0], 'yyyy-MM-dd')
-      this.params.endAt = dateFormat(dates[1], 'yyyy-MM-dd')
-      console.log('@params: ', this.params)
     },
     async submit () {
       this.params.number = this.period
