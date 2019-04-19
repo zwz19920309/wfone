@@ -104,3 +104,13 @@ export const bulkDeletePrize = data => fetch('/admin/prize/bulkDeletePrize', dat
  * 获取模板日期奖品列表
  */
 export const getPrizesBySignonById = data => fetch('/admin/signon/getPrizesBySignonById', data, 'POST')
+
+/**
+ * 获取补签形式列表
+ */
+export const getResignFromList = data => fetch('/admin/resignform/getResignFromList', data, 'POST')
+
+/**
+ * 添加可补签日期
+ */
+export const addResignDate = data => fetch('/admin/resigndate/addResignDate', data, 'POST')

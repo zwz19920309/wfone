@@ -10,6 +10,7 @@ const buildScene = r => require.ensure([], () => r(require('@/page/signon/buildS
 const sceneList = r => require.ensure([], () => r(require('@/page/signon/sceneList')), 'sceneList')
 const prizeList = r => require.ensure([], () => r(require('@/page/signon/prizeList')), 'prizeList')
 const scenesignon = r => require.ensure([], () => r(require('@/page/signon/scenesignon')), 'scenesignon')
+const settings = r => require.ensure([], () => r(require('@/page/signon/settings')), 'settings')
 export default new Router({
   routes: [
     {
@@ -48,6 +49,11 @@ export default new Router({
       {
         path: '/scenesignon',
         component: scenesignon,
+        meta: []
+      },
+      {
+        path: '/settings',
+        component: settings,
         meta: []
       }]
     }
