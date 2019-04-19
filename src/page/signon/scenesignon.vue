@@ -47,11 +47,11 @@ export default {
   },
   created () {
     this.sceneId = this.$route.query.id
-    this.initData({ sceneId: this.sceneId, type: 2})
+    this.initData({ sceneId: this.sceneId, type: 2 })
   },
   methods: {
     async initData (params) {
-      params = params || { sceneId: this.sceneId, type: 2}
+      params = params || { sceneId: this.sceneId, type: 2 }
       let res = await getSignonListBySceneId(params)
       if (res.status === 200) {
         this.signonList = res.data.list
@@ -68,7 +68,7 @@ export default {
           { label: '批量添加', type: 'danger', size: 'mini', action: async function (data) { that.bulkAddSignon(data) } }
         ]
       }
-     let res = await getSignonListBySceneId({ sceneId: this.sceneId, type: 1 })
+      let res = await getSignonListBySceneId({ sceneId: this.sceneId, type: 1 })
       if (res.status === 200 && res.data.list.length) {
         this.dialogSignonList = res.data.list
         this.$refs.signonListRef.open({ dynamic: params })
@@ -90,13 +90,13 @@ export default {
       }
     },
     async bulkDeleteSceneSignon (signonList) {
-      if (!signonList || signonList.length <1 ){
+      if (!signonList || signonList.length < 1) {
         this.$message({ message: '操作成功', type: 'success' })
         return
       }
       let scenesignons = []
       signonList.forEach(signon => {
-        scenesignons.push({sceneId: this.scene.id, signonId: signon.id })
+        scenesignons.push({ sceneId: this.scene.id, signonId: signon.id })
       })
       let res = await bulkDeleteScenesign({ scenesignons: scenesignons })
       if (res && res.status === 200) {

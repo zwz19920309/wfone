@@ -61,40 +61,6 @@ export default {
     async handleCurrentChange (data) {
       this.pageInfo.page = data
       this.initData(this.pageInfo)
-    },
-    async handleSigonList (index, row, type) {
-      this.scene = row
-      this.handleType = type
-      let res = await getSignonListBySceneId({ sceneId: this.scene.id, type: this.handleType })
-      if ((res.status === 200)) {
-        this.signonList = res.data.list
-      } else {
-        if (this.handleType === 1) {  
-          this.$message.error('暂无新增签到活动模板')
-        } else {
-          this.$message.error('该场景尚未配置签到活动模板')
-        }
-        return
-      }
-      this.$refs.signonListRef.open()
-    },
-    async changeScenesign (signonList) {
-      let scenesignons = []
-      signonList.forEach(signon => {
-        scenesignons.push([ this.scene.id, signon.id ])
-      })
-      let res
-      if (this.handleType === 1) {
-        res = await bulkAddScenesign({ scenesignons: scenesignons })
-      } else {
-        res = await bulkDeleteScenesign({ scenesignons: scenesignons })
-      }
-      if (res && res.status === 200) {
-        this.$message({ message: '操作成功', type: 'success' })
-        this.$refs.signonListRef.close()
-      } else {
-        this.$message.error('操作失败')    
-      }
     }
   }
 }

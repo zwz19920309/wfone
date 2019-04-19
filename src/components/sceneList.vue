@@ -66,8 +66,7 @@ export default {
       func && func(data)
     },
     async handleScene (data) {
-      console.log('@data: ', data)
-      let res = await updateScene({ name: data.name , note: data.note, startAt: data.start_at, endAt: data.end_at, id: data.id })
+      let res = await updateScene({ name: data.name, note: data.note, startAt: data.start_at, endAt: data.end_at, id: data.id })
       if (res.status === 200) {
         this.$message({ message: '修改成功', type: 'success' })
         this.$refs.editScene.close()
@@ -76,7 +75,7 @@ export default {
     },
     async addNewScene (data) {
       console.log('@data: ', data)
-      let res = await addScene({ name: data.name , note: data.note, startAt: data.start_at, endAt: data.end_at, id: data.id })
+      let res = await addScene({ name: data.name, note: data.note, startAt: data.start_at, endAt: data.end_at, id: data.id })
       if (res.status === 200) {
         this.$message({ message: '添加成功', type: 'success' })
         this.$refs.newScene.close()
@@ -119,7 +118,7 @@ export default {
     },
     dateFormat (row, column) {
       let date = new Date(row[column.property])
-      return date.getFullYear() + '年' + (date.getMonth()+1) + '月' +date.getDate() + '日 '
+      return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日'
     },
     toSceneSignonList (index, row) {
       this.$router.push({ path: '/scenesignon', query: { id: row.id } })

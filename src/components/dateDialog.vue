@@ -24,8 +24,8 @@ export default {
   },
   data () {
     return {
-      cDate: this.date || { start_at: '',  end_at: '' },
-      dialogShow: false,
+      cDate: this.date || { start_at: '', end_at: '' },
+      dialogShow: false
     }
   },
   created () {
@@ -35,7 +35,7 @@ export default {
       this.cDate.start_at = startAt ? dateFormat(startAt, 'yyyy-MM-dd 00:00:00') : ''
     },
     changeEndAt (endAt) {
-      this.cDate.end_at = endAt ?  dateFormat(endAt, 'yyyy-MM-dd 00:00:00') : ''
+      this.cDate.end_at = endAt ? dateFormat(endAt, 'yyyy-MM-dd 00:00:00') : ''
     },  
     submit () {
       console.log('@submit: ', this.cDate)

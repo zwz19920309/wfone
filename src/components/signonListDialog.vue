@@ -10,7 +10,7 @@
 import { getSignonList } from '@/api/getData'
 export default {
   components: {
-    'signon-list': () => import('@/components/signonList.vue'),
+    'signon-list': () => import('@/components/signonList.vue')
   },
   data () {
     return {

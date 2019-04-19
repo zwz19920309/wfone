@@ -34,7 +34,6 @@
 <script>
 import { DATETYPE } from '@/common/common'
 import { addSignon } from '@/api/getData'
-import { dateFormat } from '@/common/utils/date-util'
 export default {
   data () {
     return {
