@@ -1,16 +1,22 @@
 <template>
-  <el-dialog  title="编辑场景" :visible.sync="dialogShow">
+  <el-dialog title="编辑场景" :visible.sync="dialogShow">
     <el-form :inline="true">
       <el-form-item label="名称">
         <el-input placeholder="请填写场景名称" v-model="cScene.name"></el-input>
       </el-form-item>
       <el-form-item label="场景描述">
-        <el-input  type="textarea" :rows="5" style="width: 400px;"  placeholder="请填写描述" v-model="cScene.note"></el-input>
+        <el-input
+          type="textarea"
+          :rows="5"
+          style="width: 400px;"
+          placeholder="请填写描述"
+          v-model="cScene.note"
+        ></el-input>
       </el-form-item>
-    </el-form>   
-     <div class="pad10 t-right">
-        <el-button type="primary"  @click="submit">确认</el-button>
-      </div>
+    </el-form>
+    <div class="pad10 t-right">
+      <el-button type="primary" @click="submit">确认</el-button>
+    </div>
   </el-dialog>
 </template>
 
@@ -19,22 +25,22 @@ export default {
   components: {
     'edit-scene-dialog': () => import('@/components/editSceneDialog.vue')
   },
-  data () {
+  data() {
     return {
       cScene: this.scene || { name: '', note: '' },
       dialogShow: false
     }
   },
-  created () {
+  created() {
   },
   methods: {
-    submit () {
+    submit() {
       this.callBack && this.callBack(this.cScene)
     },
-    open (params) {
+    open(params) {
       this.dialogShow = true
     },
-    close () {
+    close() {
       this.dialogShow = false
     }
   },
@@ -53,5 +59,4 @@ export default {
 .t-right {
   text-align: right;
 }
-
 </style>

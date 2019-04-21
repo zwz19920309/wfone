@@ -1,10 +1,20 @@
 <template>
-  <el-dialog  title="奖品列表" :visible.sync="dialogShow">
-    <prize-list :callBack="callBcakHandler" :isEdit="isEdit" :prizeList="cPrizeList" :dynamic="dynamic"></prize-list>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageInfo.currentPage" :page-sizes="[1, 2, 3, 4]" :page-size="pageInfo.pageSize"
+  <el-dialog title="奖品列表" :visible.sync="dialogShow">
+    <prize-list
+      :callBack="callBcakHandler"
+      :isEdit="isEdit"
+      :prizeList="cPrizeList"
+      :dynamic="dynamic"
+    ></prize-list>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="pageInfo.currentPage"
+      :page-sizes="[1, 2, 3, 4]"
+      :page-size="pageInfo.pageSize"
       layout="sizes, prev, pager, next"
-      :total="cTotal">
-    </el-pagination>
+      :total="cTotal"
+    ></el-pagination>
   </el-dialog>
 </template>
 
@@ -14,7 +24,7 @@ export default {
   components: {
     'prize-list': () => import('@/components/prizeList.vue')
   },
-  data () {
+  data() {
     return {
       dialogShow: false,
       cPrizeList: this.prizeList || [],
@@ -27,12 +37,12 @@ export default {
       dynamic: null
     }
   },
-  created () {
+  created() {
     this.initData(this.pageInfo)
   },
   methods: {
-    async initData (pageInfo) {
-      if (this.cPrizeList && (this.cPrizeList.length < 1)) {
+    async initData(pageInfo) {
+      if (this.cPrizeList && this.cPrizeList.length < 1) {
         let res = await getPrizeList(pageInfo)
         if (res.status === 200) {
           this.cPrizeList = res.data.list
@@ -40,32 +50,33 @@ export default {
         }
       }
     },
-    handleSelectionChange (data) {
+    handleSelectionChange(data) {
       this.cData = data
     },
-    callBcakHandler () {
+    callBcakHandler() {
       this.initData(this.pageInfo)
     },
-    async handleSizeChange (data) {
+    async handleSizeChange(data) {
       this.sizeChange && this.sizeChange(data)
     },
-    async handleCurrentChange (data) {
+    async handleCurrentChange(data) {
       this.currentChange && this.currentChange(data)
     },
-    open (params) { // 参数dynamic
+    open(params) {
+      // 参数dynamic
       this.dynamic = params
       this.dialogShow = true
     },
-    close () {
+    close() {
       this.dialogShow = false
     }
   },
   props: ['sizeChange', 'currentChange', 'isEdit', 'prizeList', 'total'],
   watch: {
-    'prizeList': function (newVal, oldVal) {
+    prizeList: function (newVal, oldVal) {
       this.cPrizeList = newVal
     },
-    'total': function (newVal, oldVal) {
+    total: function (newVal, oldVal) {
       // this.cTotal = newVal
     }
   }

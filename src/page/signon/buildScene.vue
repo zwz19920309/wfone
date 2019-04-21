@@ -2,16 +2,22 @@
   <div class="fillcontain">
     <div class="mar10">
       <div class="pad10">
-        <el-form :inline="true"  class="demo-form-inline">
+        <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="场景名称">
             <el-input placeholder="请填写名称" v-model="name"></el-input>
           </el-form-item>
         </el-form>
       </div>
       <div class="pad10">
-        <el-form :inline="true"  class="demo-form-inline">
+        <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="场景描述">
-            <el-input  type="textarea" :rows="8" style="width: 450px;"  placeholder="请填写描述" v-model="desc"></el-input>
+            <el-input
+              type="textarea"
+              :rows="8"
+              style="width: 450px;"
+              placeholder="请填写描述"
+              v-model="desc"
+            ></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -25,15 +31,15 @@
 <script>
 import { addScene } from '@/api/getData'
 export default {
-  data () {
+  data() {
     return {
       name: '',
       desc: ''
     }
   },
   methods: {
-    async submit () {
-      let res = await addScene({name: this.name, desc: this.desc})
+    async submit() {
+      let res = await addScene({ name: this.name, desc: this.desc })
       if (res.status === 200) {
         this.$message({ message: '添加成功', type: 'success' })
       }

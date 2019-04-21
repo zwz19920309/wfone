@@ -7,14 +7,16 @@
           <signon-list :callBack="callBcakHander" :isEdit="isEdit" :signonList="signonList"></signon-list>
         </div>
         <div class="Pagination" style="text-align: left;margin-top: 10px;">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageInfo.currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageInfo.pageSize"
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="pageInfo.currentPage"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="pageInfo.pageSize"
             layout="sizes, prev, pager, next"
-            :total="pageInfo.total">
-          </el-pagination>
+            :total="pageInfo.total"
+          ></el-pagination>
         </div>
-      </div>
-      <div>
-        <!-- <edit-signon-dialog></edit-signon-dialog> -->
       </div>
     </div>
   </div>
@@ -23,7 +25,7 @@
 <script>
 import { getSignonList } from '@/api/getData'
 export default {
-  data () {
+  data() {
     return {
       isEdit: true,
       signonList: [],
@@ -38,30 +40,32 @@ export default {
     'signon-list': () => import('@/components/signonList.vue'),
     'edit-signon-dialog': () => import('@/components/editSignonDialog.vue')
   },
-  created () {
+  created() {
     this.initData(this.pageInfo)
   },
   methods: {
-    async initData (params) {
-      let res = await getSignonList({page: params.currentPage, pageSize: params.pageSize})
+    async initData(params) {
+      let res = await getSignonList({
+        page: params.currentPage,
+        pageSize: params.pageSize
+      })
       if (res.status === 200) {
         this.signonList = res.data.list
         this.pageInfo.total = res.data.total
       }
-      console.log('@data: ', res)
-    }, 
-    test () {
+    },
+    test() {
       this.signonList = []
     },
-    async handleSizeChange (val) {
+    async handleSizeChange(val) {
       this.pageInfo.pageSize = val
       this.initData(this.params)
     },
-    async handleCurrentChange (val) {
+    async handleCurrentChange(val) {
       this.pageInfo.currentPage = val
       this.initData(this.pageInfo)
     },
-    callBcakHander () {
+    callBcakHander() {
       this.initData(this.pageInfo)
     }
   }

@@ -108,9 +108,14 @@ export const getPrizesBySignonById = data => fetch('/admin/signon/getPrizesBySig
 /**
  * 获取补签形式列表
  */
-export const getResignFromList = data => fetch('/admin/resignform/getResignFromList', data, 'POST')
+export const getResignFormList = data => fetch('/admin/resignform/getResignFormList', data, 'POST')
 
 /**
  * 添加可补签日期
  */
 export const addResignDate = data => fetch('/admin/resigndate/addResignDate', data, 'POST')
+
+/**
+ * 补签日期列表
+ */
+export const getResignDateList = data => fetch('/admin/resigndate/getResignDateList', data, 'POST')

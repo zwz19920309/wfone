@@ -1,7 +1,9 @@
 <template>
   <div class="fillcontain">
     <div class="table_container">
-      <div class="mar10"><h3>奖品管理</h3></div>
+      <div class="mar10">
+        <h3>奖品管理</h3>
+      </div>
       <div class="mar10 pad10">名称: {{signon.name}}</div>
       <div class="mar10 pad10" v-if="signon.checkin_type">类型: {{signon.checkin_type.name}}</div>
       <div class="mar10 pad10" v-if="signon.cycle_text">签到周期: {{cycleNum}} 天</div>
@@ -21,15 +23,30 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="openPrizeList(scope.$index, scope.row, 1)">添加</el-button> 
-                <el-button type="danger" size="mini" @click="openPrizeList(scope.$index, scope.row, 2)">删除</el-button> 
+                <el-button
+                  type="primary"
+                  size="mini"
+                  @click="openPrizeList(scope.$index, scope.row, 1)"
+                >添加</el-button>
+                <el-button
+                  type="danger"
+                  size="mini"
+                  @click="openPrizeList(scope.$index, scope.row, 2)"
+                >删除</el-button>
               </template>
             </el-table-column>
-         </el-table>
+          </el-table>
         </div>
       </div>
       <div>
-        <prize-list-dialog :sizeChange="handleSizeChange" :currentChange="handleCurrentChange" :isEdit="isEdit" :total="total"  :prizeList="prizeList" ref="prizeListRef"></prize-list-dialog>
+        <prize-list-dialog
+          :sizeChange="handleSizeChange"
+          :currentChange="handleCurrentChange"
+          :isEdit="isEdit"
+          :total="total"
+          :prizeList="prizeList"
+          ref="prizeListRef"
+        ></prize-list-dialog>
       </div>
     </div>
   </div>
@@ -39,7 +56,7 @@
 import { DATETYPEVALUE } from '@/common/common'
 import { getSignonById, signonBulkAddPrizes, signonBulkDeletePrizes, getPrizesBySignonById } from '@/api/getData'
 export default {
-  data () {
+  data() {
     return {
       prizes: [],
       signon: {},
@@ -59,18 +76,18 @@ export default {
   components: {
     'prize-list-dialog': () => import('@/components/prizeListDialog.vue')
   },
-  created () {
+  created() {
     this.sceneId = this.$route.query.id
     this.initData(this.sceneId)
   },
   methods: {
-    async initData (id) {
+    async initData(id) {
       let res = await getSignonById({ id: id })
       let prizes = []
       if (res.status === 200) {
         this.signon = res.data
         this.cycleNum = this.signon.cycle_text.number ? this.signon.cycle_text.number : DATETYPEVALUE[this.signon.cycle_text.type]
-        for (let m = 1; m <= this.cycleNum; m++) {
+        for (let m = 1;m <= this.cycleNum;m++) {
           if (this.signon.prizes_text && this.signon.prizes_text.prizes && this.signon.prizes_text.prizes[0] && this.signon.prizes_text.prizes[0][m]) {
             prizes.push({ index: m, prizeIds: this.signon.prizes_text.prizes[0][m] })
           } else {
@@ -78,18 +95,18 @@ export default {
           }
         }
         this.prizes = prizes
-      } 
+      }
       console.log('signon: ', this.signon)
     },
-    async handleSizeChange (data) {
+    async handleSizeChange(data) {
       this.pageInfo.pageSize = data
       await this.getPrizesBySignon()
     },
-    async handleCurrentChange (data) {
+    async handleCurrentChange(data) {
       this.pageInfo.page = data
       await this.getPrizesBySignon()
     },
-    async handleSignOnPrize (row) {
+    async handleSignOnPrize(row) {
       let prizeIds = []
       if (row instanceof Array) {
         row.forEach(ele => {
@@ -112,7 +129,7 @@ export default {
         this.$message.error('操作失败')
       }
     },
-    async getPrizesBySignon () {
+    async getPrizesBySignon() {
       let res = await getPrizesBySignonById({ id: this.signon.id, number: this.prize.index, type: this.type, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
       if (res.status === 200) {
         if (!res.data.list || res.data.list.length < 1) {
@@ -123,7 +140,7 @@ export default {
       }
       return res
     },
-    async openPrizeList (index, row, type) {
+    async openPrizeList(index, row, type) {
       this.type = type
       this.prize = row
       this.pageInfo = { page: 1, pageSize: 10 }

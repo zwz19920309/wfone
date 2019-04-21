@@ -1,24 +1,38 @@
 <template>
   <div>
-    <el-table border :data="prizeList" stripe style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" v-if="isEdit"> </el-table-column>
+    <el-table
+      border
+      :data="prizeList"
+      stripe
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column type="selection" width="55" v-if="isEdit"></el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column prop="note" label="描述" width="250"></el-table-column>
       <el-table-column prop="createdAt" label="创建时间"></el-table-column>
       <el-table-column prop="desc" label="操作" width="180" v-if="isEdit">
         <template slot-scope="scope">
-          <el-button v-for="(item, key) in cDynamic.actionbutton" :key="key" :type="item.type" :size="item.size" @click="func(item.action, scope.row)">
-            {{ item.label }}
-          </el-button>
+          <el-button
+            v-for="(item, key) in cDynamic.actionbutton"
+            :key="key"
+            :type="item.type"
+            :size="item.size"
+            @click="func(item.action, scope.row)"
+          >{{ item.label }}</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div class="pad10 t-right" v-if="isEdit"> 
-      <el-button v-for="(item, key) in cDynamic.bluckActionbutton" :key="key" :type="item.type" :size="item.size" @click="func(item.action, prizes)">
-        {{ item.label }}
-      </el-button>
+    <div class="pad10 t-right" v-if="isEdit">
+      <el-button
+        v-for="(item, key) in cDynamic.bluckActionbutton"
+        :key="key"
+        :type="item.type"
+        :size="item.size"
+        @click="func(item.action, prizes)"
+      >{{ item.label }}</el-button>
     </div>
-   </div>      
+  </div>
 </template>
 
 <script>
@@ -26,7 +40,7 @@ import { deletePrize, bulkDeletePrize } from '@/api/getData'
 export default {
   components: {
   },
-  data () {
+  data() {
     let that = this
     return {
       prizes: [],
@@ -41,16 +55,16 @@ export default {
       }
     }
   },
-  created () {
+  created() {
   },
   methods: {
-    async func (func, data) {
+    async func(func, data) {
       func && func(data)
     },
-    async handleEdit (data) {
+    async handleEdit(data) {
       console.log('handleEdit: ')
     },
-    async handleDelete (row) {
+    async handleDelete(row) {
       this.$confirm('确认删除该选项?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning' }).then(async () => {
         let res = await deletePrize({ id: row.id })
         if (res.status === 200) {
@@ -59,10 +73,10 @@ export default {
         }
       })
     },
-    async handleSelectionChange (data) {
+    async handleSelectionChange(data) {
       this.prizes = data
     },
-    async handleBluckEdit () {
+    async handleBluckEdit() {
       if (this.prizes.length < 1) {
         this.$message({ message: '请选择要删除的选项', type: 'warning' })
         return

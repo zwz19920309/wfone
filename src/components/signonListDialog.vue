@@ -1,7 +1,13 @@
 <template>
-  <el-dialog  title="签到活动列表" :visible.sync="dialogShow">
+  <el-dialog title="签到活动列表" :visible.sync="dialogShow">
     <div>
-      <signon-list :isDate="isDate" :simplify="simplify" :dynamic="dynamic" :isEdit="isEdit" :signonList="cSignonList" ></signon-list>
+      <signon-list
+        :isDate="isDate"
+        :simplify="simplify"
+        :dynamic="dynamic"
+        :isEdit="isEdit"
+        :signonList="cSignonList"
+      ></signon-list>
     </div>
   </el-dialog>
 </template>
@@ -12,7 +18,7 @@ export default {
   components: {
     'signon-list': () => import('@/components/signonList.vue')
   },
-  data () {
+  data() {
     return {
       value: '',
       dialogShow: false,
@@ -23,36 +29,36 @@ export default {
       simplify: true
     }
   },
-  created () {
+  created() {
     this.initData()
   },
   methods: {
-    async initData () {
+    async initData() {
       if (!this.cSignonList.length) {
         let res = await getSignonList()
-        if ((res.status === 200) && (res.data.list.length)) {
+        if (res.status === 200 && res.data.list.length) {
           this.cSignonList = res.data.list
         }
       }
     },
-    handleSelectionChange (data) {
+    handleSelectionChange(data) {
       this.cData = data
     },
-    inSure () {
+    inSure() {
       this.callBack && this.callBack(this.cData)
     },
-    open (params) {
+    open(params) {
       this.dynamic = params.dynamic
       this.isEdit = params.isEdit || this.isEdit
       this.dialogShow = true
     },
-    close () {
+    close() {
       this.dialogShow = false
     }
   },
   props: ['callBack', 'signonList', 'isDate'],
   watch: {
-    'signonList': function (newVal, oldVal) {
+    signonList: function (newVal, oldVal) {
       this.cSignonList = newVal
     }
   }
