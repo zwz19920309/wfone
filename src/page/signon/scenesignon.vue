@@ -11,6 +11,7 @@
           :callBack="callBcakHander"
           :isEdit="isEdit"
           :signonList="signonList"
+          :simplify="simplify"
         ></signon-list>
       </div>
       <div class="pad10">
@@ -34,6 +35,7 @@ export default {
       isDate: true,
       sceneId: 0,
       scene: {},
+      simplify: true,
       handleType: 1,
       signonList: [],
       dialogSignonList: [],

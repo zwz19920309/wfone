@@ -106,6 +106,21 @@ export const bulkDeletePrize = data => fetch('/admin/prize/bulkDeletePrize', dat
 export const getPrizesBySignonById = data => fetch('/admin/signon/getPrizesBySignonById', data, 'POST')
 
 /**
+ * 获取模板日期奖品列表
+ */
+export const getConsumesBySignonById = data => fetch('/admin/signon/getConsumesBySignonById', data, 'POST')
+
+/**
+ * 批量添加补签消耗
+ */
+export const bulkAddConsumes = data => fetch('/admin/signon/bulkAddConsumes', data, 'POST')
+
+/**
+ * 批量删除奖品消耗
+ */
+export const bulkDeleteConsumes = data => fetch('/admin/signon/bulkDeleteConsumes', data, 'POST')
+
+/**
  * 获取补签形式列表
  */
 export const getResignFormList = data => fetch('/admin/resignform/getResignFormList', data, 'POST')

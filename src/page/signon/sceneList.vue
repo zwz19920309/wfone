@@ -1,9 +1,6 @@
 <template>
   <div class="fillcontain">
     <div class="table_container">
-      <!-- <div>
-        <signon-list-dialog :signonList="signonList" :callBack="changeScenesign" ref="signonListRef"></signon-list-dialog>
-      </div>-->
       <div class="mar10 pad10">
         <h3>场景列表</h3>
       </div>

@@ -4,27 +4,16 @@
       <div class="pad10">
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="可补签日期: ">
-            <el-input
-              type="textarea"
-              :rows="8"
-              style="width: 450px;"
-              @click="openMultiByDrop($event)"
-              placeholder
+            <textarea
+              rows="10"
+              cols="40"
               v-model="calendarObj.display"
-            ></el-input>
+              @click="openMultiByDrop($event)"
+            ></textarea>
           </el-form-item>
         </el-form>
       </div>
-      <div class="calendar_box">
-        <span class="resign_text" @click="openMultiByDrop($event)">补签日期设置</span>
-        <input
-          class="calendar_input"
-          type="text"
-          @click="openMultiByDrop($event)"
-          v-model="calendarObj.display"
-        >
-      </div>
-      <div class>
+      <div class="pad10">
         <el-button type="primary" @click="bulkAddResignDate">确认提交</el-button>
       </div>
       <transition name="fade">
@@ -32,7 +21,6 @@
           <calendar
             :zero="calendarObj.zero"
             :lunar="calendarObj.lunar"
-            @selectMonth="calendarObj.selectMonth"
             :value="calendarObj.value"
             :multi="calendarObj.multi"
             @select="calendarObj.select"
@@ -47,7 +35,6 @@
 import { addResignDate, getResignDateList } from '@/api/getData'
 export default {
   data() {
-    let that = this
     return {
       resignDateList: [],
       calendarObj: {
@@ -59,34 +46,22 @@ export default {
         value: [], // 默认日期
         lunar: true, // 显示农历
         select: value => {
-          // console.log('@resignValue: ', value)
-          // let valueStr ='' + value[0][0] + value[0][1] +value[0][2] + ''
-          // console.log('valueStr: ', valueStr)
+          console.log('@dateValue: ', value)
           let displayValue = []
           let newResignData = []
           value.forEach(v => {
-            let date = v[0] + '-' + ((v[1] >= 10) ? v[1] : ('0' + v[1])) + '-' + ((v[2] >= 10) ? v[2] : ('0' + v[2]))
+            let date =
+              v[0] +
+              '-' +
+              (v[1] >= 10 ? v[1] : '0' + v[1]) +
+              '-' +
+              (v[2] >= 10 ? v[2] : '0' + v[2])
             displayValue.push(date)
             newResignData.push(date)
           })
           this.calendarObj.value = value
           this.resignDateList = newResignData
-          console.log('@resignDateList: ', this.resignDateList)
-          // this.resignDateList.push([value[0] + "-" + (value[1]) + "-" + value[2]])
-          // console.log('@resignDateList: ', this.resignDateList)
           this.calendarObj.display = displayValue.join(',')
-        },
-        selectMonth: (month, year) => {
-          console.log('@month: ', month)
-          console.log('@year: ', year)
-          console.log('@value: ', this.calendarObj.value)
-          this.calendarObj.value = [[year, month, 1]]
-          if (month === 8) {
-            this.calendarObj.value = this.arr
-          }
-
-          // this.value = [[2019, 5, 1]]
-          //. this.display = ''
         }
       }
     }
@@ -104,18 +79,20 @@ export default {
         let datas = res.data.list
         let arr = []
         datas.forEach(ele => {
-          let dates = ele.re_date.split('-')
-          arr.push([parseInt(dates[0]), parseInt(dates[1]), parseInt(dates[2])])
+          let dates = ele.split('-')
+          arr.push([
+            parseInt(dates[0]),
+            parseInt(dates[1]),
+            parseInt(dates[2])
+          ])
         })
         this.arr = arr
         this.calendarObj.select(arr)
       }
     },
-    async submit() {
-    },
+    async submit() { },
     openMultiByDrop(e) {
       this.calendarObj.show = true
-
       e.stopPropagation()
       window.setTimeout(() => {
         document.addEventListener(
@@ -130,6 +107,10 @@ export default {
     },
     async bulkAddResignDate() {
       let res = await addResignDate({ resignDates: this.resignDateList })
+      if (res.status === 200) {
+        this.$message({ message: '修改成功', type: 'success' })
+        this.initData()
+      }
     }
   }
 }

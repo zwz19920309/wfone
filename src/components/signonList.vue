@@ -24,8 +24,18 @@
       <el-table-column label="奖品管理" width="150" v-if="!simplify">
         <template slot-scope="scope">
           <div>
-            <span class="detial" @click="toPrizeList(scope.$index, scope.row)">奖品详情</span>
+            <span class="detail" @click="toPrizeList(scope.$index, scope.row)">奖品详情</span>
           </div>
+        </template>
+      </el-table-column>
+      <el-table-column v-if="!simplify" label="补签详情" width="100">
+        <template slot-scope="scope">
+          <span
+            class="detail"
+            v-if="(scope.row.extra_text && scope.row.extra_text.resign)"
+            @click="toResignPlan(scope.$index, scope.row)"
+          >补签方案</span>
+          <span v-if="!(scope.row.extra_text && scope.row.extra_text.resign)">无</span>
         </template>
       </el-table-column>
       <el-table-column label="生效时间" width="150" v-if="isDate">
@@ -182,6 +192,9 @@ export default {
     },
     toPrizeList(index, row) {
       this.$router.push({ path: '/prizeList', query: { id: row.id } })
+    },
+    toResignPlan(index, row) {
+      this.$router.push({ path: '/resignPlan', query: { id: row.id } })
     }
   },
   props: ['signonList', 'isEdit', 'isDate', 'simplify', 'callBack', 'dynamic']
