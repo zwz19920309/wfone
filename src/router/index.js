@@ -12,6 +12,8 @@ const prizeList = r => require.ensure([], () => r(require('@/page/signon/prizeLi
 const scenesignon = r => require.ensure([], () => r(require('@/page/signon/scenesignon')), 'scenesignon')
 const settings = r => require.ensure([], () => r(require('@/page/signon/settings')), 'settings')
 const resignPlan = r => require.ensure([], () => r(require('@/page/signon/resignPlan')), 'resignPlan')
+const awardList = r => require.ensure([], () => r(require('@/page/signon/awardList')), 'awardList')
+const awardRecordList = r => require.ensure([], () => r(require('@/page/signon/awardRecordList')), 'awardRecordList')
 export default new Router({
   routes: [
     {
@@ -60,6 +62,16 @@ export default new Router({
       {
         path: '/resignPlan',
         component: resignPlan,
+        meta: []
+      },
+      {
+        path: '/awardList',
+        component: awardList,
+        meta: []
+      },
+      {
+        path: '/awardRecordList',
+        component: awardRecordList,
         meta: []
       }]
     }

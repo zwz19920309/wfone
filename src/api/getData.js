@@ -91,6 +91,16 @@ export const getSignonListBySceneId = data => fetch('/admin/signon/getSignonList
 export const getPrizeList = data => fetch('/admin/prize/getPrizeList', data, 'POST')
 
 /**
+ * 增加奖品
+ */
+export const addPrize = data => fetch('/admin/prize/addPrize', data, 'POST')
+
+/**
+ * 更新奖品
+ */
+export const updatePrize = data => fetch('/admin/prize/updatePrize', data, 'POST')
+
+/**
  * 删除奖品
  */
 export const deletePrize = data => fetch('/admin/prize/deletePrize', data, 'POST')
@@ -134,3 +144,13 @@ export const addResignDate = data => fetch('/admin/resigndate/addResignDate', da
  * 补签日期列表
  */
 export const getResignDateList = data => fetch('/admin/resigndate/getResignDateList', data, 'POST')
+
+/**
+ * 奖励记录列表
+ */
+export const getAwardRecordList = data => fetch('/admin/awardrecord/getAwardRecordList', data, 'POST')
+
+/**
+ * 奖励记录列表
+ */
+export const userSignon = data => fetch('/admin/signon/userSignon', data, 'POST')

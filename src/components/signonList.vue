@@ -32,10 +32,12 @@
         <template slot-scope="scope">
           <span
             class="detail"
-            v-if="(scope.row.extra_text && scope.row.extra_text.resign)"
+            v-if="(scope.row.extra_text && scope.row.extra_text.resign && (scope.row.extra_text.resign.cost === 2))"
             @click="toResignPlan(scope.$index, scope.row)"
           >补签方案</span>
-          <span v-if="!(scope.row.extra_text && scope.row.extra_text.resign)">无</span>
+          <span
+            v-if="!(scope.row.extra_text && scope.row.extra_text.resign && (scope.row.extra_text.resign.cost === 2))"
+          >无</span>
         </template>
       </el-table-column>
       <el-table-column label="生效时间" width="150" v-if="isDate">

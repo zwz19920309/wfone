@@ -208,10 +208,13 @@ export default {
       }, 1000)
     },
     async submit() {
-      this.params.resignDates = this.resignDateList
+
       this.params.isResign = this.resign.isResign
       this.params.formId = this.resign.formId
       this.params.cost = this.resign.cost
+      if (this.resign.cost === 2) {
+        this.params.resignDates = this.resignDateList
+      }
       let res = await addSignon(this.params)
       if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
