@@ -57,7 +57,7 @@ export default {
     async handleCurrentChange(data) {
       this.pageInfo.page = data
       await this.initData(this.pageInfo)
-    },
+    }
   }
 }
 </script>

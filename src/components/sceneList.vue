@@ -8,6 +8,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" v-if="isEdit"></el-table-column>
+      <el-table-column prop="id" label="场景id" width="80"></el-table-column>
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
       <el-table-column prop="note" label="描述"></el-table-column>
       <!-- <el-table-column prop="start_at" :formatter="dateFormat" label="开始时间"></el-table-column>

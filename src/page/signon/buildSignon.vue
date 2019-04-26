@@ -208,7 +208,6 @@ export default {
       }, 1000)
     },
     async submit() {
-
       this.params.isResign = this.resign.isResign
       this.params.formId = this.resign.formId
       this.params.cost = this.resign.cost

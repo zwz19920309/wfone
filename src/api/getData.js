@@ -154,3 +154,8 @@ export const getAwardRecordList = data => fetch('/admin/awardrecord/getAwardReco
  * 奖励记录列表
  */
 export const userSignon = data => fetch('/admin/signon/userSignon', data, 'POST')
+
+/**
+ * 获取签到情况
+ */
+export const getSelfSignon = data => fetch('/admin/signon/getSelfSignon', data, 'POST')

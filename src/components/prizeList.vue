@@ -15,7 +15,6 @@
           <img class="g-icon" :src="scope.row.icon">
         </template>
       </el-table-column>
-      <el-table-column prop="createdAt" label="创建时间"></el-table-column>
       <el-table-column prop="desc" label="操作" width="180" v-if="isEdit">
         <template slot-scope="scope">
           <el-button
@@ -47,7 +46,7 @@
 </template>
 
 <script>
-import { deletePrize, bulkDeletePrize, addPrize, updatePrize } from '@/api/getData'
+import { bulkDeletePrize, addPrize, updatePrize } from '@/api/getData'
 export default {
   components: {
     'edit-prize-dialog': () => import('@/components/editPrizeDialog.vue')
@@ -84,7 +83,7 @@ export default {
       this.$refs.newPrizeRef.open()
     },
     async editPrize(data) {
-      let fileData = new FormData();
+      let fileData = new FormData()
       fileData.append('id', data.id)
       fileData.append('name', data.name)
       fileData.append('note', data.note)

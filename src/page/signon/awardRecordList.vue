@@ -8,6 +8,7 @@
         <el-table border :data="recordList" style="width: 100%">
           <el-table-column prop="uid" label="用户uid"></el-table-column>
           <el-table-column prop="prize_name" label="奖励名称"></el-table-column>
+          <el-table-column prop="number" label="奖励数量"></el-table-column>
           <el-table-column prop="prize_note" label="奖励描述" width="250"></el-table-column>
           <el-table-column prop="created_at" label="奖励时间"></el-table-column>
         </el-table>
@@ -23,18 +24,45 @@
           :total="pageInfo.total"
         ></el-pagination>
       </div>
-      <div>
-        <span @click="test">奖励</span>
+      <div class="mar10 pad10">
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-input v-model="test.uid" placeholder="用户uid"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="test.sceneId" placeholder="场景id"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">签到</el-button>
+          </el-form-item>
+        </el-form>
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-input v-model="test.qUid" placeholder="用户uid"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="test.qSecenId" placeholder="场景id"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onQuery">查询</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getAwardRecordList, userSignon } from '@/api/getData'
+import { getAwardRecordList, userSignon, getSelfSignon } from '@/api/getData'
 export default {
   data() {
     return {
+      test: {
+        uid: '',
+        sceneId: '',
+        qUid: '',
+        qSecenId: ''
+      },
       isEdit: true,
       recordList: [],
       pageInfo: {
@@ -66,9 +94,13 @@ export default {
       this.pageInfo.page = data
       await this.initData(this.pageInfo)
     },
-    async test() {
-      console.log('@test')
-      await userSignon({ uid: '2312312', sceneId: '15' })
+    async onSubmit() {
+      console.log('@onSubmit')
+      await userSignon({ uid: this.test.uid, sceneId: this.test.sceneId })
+    },
+    async onQuery() {
+      console.log('@onQuery: -----')
+      await getSelfSignon({ uid: this.test.qUid, sceneId: this.test.qSecenId })
     }
   }
 }

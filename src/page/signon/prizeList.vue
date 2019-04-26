@@ -18,7 +18,11 @@
             </el-table-column>
             <el-table-column label="详情">
               <template slot-scope="scope">
-                <span></span>
+                <span
+                  class="detail"
+                  v-if="scope.row.prizeIds.length"
+                  @click="toSignonPrizeList(scope.$index, scope.row)"
+                >奖品明细</span>
               </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -28,11 +32,6 @@
                   size="mini"
                   @click="openPrizeList(scope.$index, scope.row, 1)"
                 >添加</el-button>
-                <el-button
-                  type="danger"
-                  size="mini"
-                  @click="openPrizeList(scope.$index, scope.row, 2)"
-                >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -48,28 +47,41 @@
           ref="prizeListRef"
         ></prize-list-dialog>
       </div>
+      <div class="pad10">
+        <el-dialog title="奖品数量" :visible.sync="numDialogShow" append-to-body>
+          <el-form :inline="true" class="demo-form-inline">
+            <el-input v-model="prizeNum" placeholder="请输入奖品数量"></el-input>
+          </el-form>
+          <div class="pad10 t-right">
+            <el-button type="primary" @click="insureNumber">确认</el-button>
+          </div>
+        </el-dialog>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { DATETYPEVALUE } from '@/common/common'
-import { getSignonById, signonBulkAddPrizes, signonBulkDeletePrizes, getPrizesBySignonById } from '@/api/getData'
+import { getSignonById, getPrizeList, signonBulkAddPrizes, signonBulkDeletePrizes, getPrizesBySignonById } from '@/api/getData'
 export default {
   data() {
     return {
+      numDialogShow: false,
+      prizeNum: 1,
       prizes: [],
       signon: {},
       isEdit: true,
       prize: {},
       prizeList: [],
+      sizeOnPrize: {},
       total: 0,
       sceneId: 0,
       type: 1,
       cycleNum: 0,
       pageInfo: {
         page: 1,
-        pageSize: 10
+        pageSize: 1
       }
     }
   },
@@ -87,7 +99,7 @@ export default {
       if (res.status === 200) {
         this.signon = res.data
         this.cycleNum = this.signon.cycle_text.number ? this.signon.cycle_text.number : DATETYPEVALUE[this.signon.cycle_text.type]
-        for (let m = 1;m <= this.cycleNum;m++) {
+        for (let m = 1; m <= this.cycleNum; m++) {
           if (this.signon.prizes_text && this.signon.prizes_text.prizes && this.signon.prizes_text.prizes[0] && this.signon.prizes_text.prizes[0][m]) {
             prizes.push({ index: m, prizeIds: this.signon.prizes_text.prizes[0][m] })
           } else {
@@ -106,31 +118,46 @@ export default {
       this.pageInfo.page = data
       await this.getPrizesBySignon()
     },
-    async handleSignOnPrize(row) {
-      let prizeIds = []
-      if (row instanceof Array) {
-        row.forEach(ele => {
-          prizeIds.push(ele.id)
-        })
-      } else {
-        prizeIds.push(row.id)
-      }
-      let res = {}
-      if (this.type === 1) {
-        res = await signonBulkAddPrizes({ id: this.signon.id, prizeIds: prizeIds, number: this.prize.index, type: this.type })
-      } else {
-        res = await signonBulkDeletePrizes({ id: this.signon.id, prizeIds: prizeIds, number: this.prize.index, type: this.type })
-      }
+    async insureNumber() {
+      console.log('@prizeNum: ', this.prizeNum)
+      let res = await signonBulkAddPrizes({ id: this.signon.id, prizeNum: this.prizeNum, prizeId: this.sizeOnPrize.id, number: this.prize.index })
       if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
+        this.numDialogShow = false
         this.$refs.prizeListRef.close()
         this.initData(this.sceneId)
       } else {
         this.$message.error('操作失败')
       }
     },
+    async handleSignOnPrize(row) {
+      console.log('@row: ', row)
+      this.numDialogShow = true
+      this.sizeOnPrize = row
+      // let prizeIds = []
+      // if (row instanceof Array) {
+      //   row.forEach(ele => {
+      //     prizeIds.push(ele.id)
+      //   })
+      // } else {
+      //   prizeIds.push(row.id)
+      // }
+      // let res = {}
+      // if (this.type === 1) {
+      //   res = await signonBulkAddPrizes({ id: this.signon.id, prizeIds: prizeIds, number: this.prize.index, type: this.type })
+      // } else {
+      //   res = await signonBulkDeletePrizes({ id: this.signon.id, prizeIds: prizeIds, number: this.prize.index, type: this.type })
+      // }
+      // if (res.status === 200) {
+      //   this.$message({ message: '操作成功', type: 'success' })
+      //   this.$refs.prizeListRef.close()
+      //   this.initData(this.sceneId)
+      // } else {
+      //   this.$message.error('操作失败')
+      // }
+    },
     async getPrizesBySignon() {
-      let res = await getPrizesBySignonById({ id: this.signon.id, number: this.prize.index, type: this.type, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
+      let res = await getPrizeList({ id: this.signon.id, number: this.prize.index, type: this.type, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
       if (res.status === 200) {
         if (!res.data.list || res.data.list.length < 1) {
           return false
@@ -140,15 +167,19 @@ export default {
       }
       return res
     },
+    async openDeletePrizeList(index, row) {
+      this.prize = row
+      let res = await getPrizesBySignonById({ id: this.signon.id, number: this.prize.index, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
+    },
     async openPrizeList(index, row, type) {
       this.type = type
       this.prize = row
-      this.pageInfo = { page: 1, pageSize: 10 }
+      this.pageInfo = { page: 1, pageSize: 1 }
       let res = await this.getPrizesBySignon()
-      if (!res) {
-        this.type === 1 ? this.$message.error('暂无新奖品') : this.$message.error('未配置奖品')
-        return
-      }
+      // if (!res) {
+      //   this.type === 1 ? this.$message.error('暂无新奖品') : this.$message.error('未配置奖品')
+      //   return
+      // }
       let that = this
       let changePrams = {
         btn_text: '添加',
@@ -167,11 +198,14 @@ export default {
           { label: changePrams.btn_text, type: changePrams.type, size: 'mini', action: async function (row) { that.handleSignOnPrize(row) } }
         ],
         bluckActionbutton: [
-          { label: changePrams.m_btn_text, type: changePrams.type, size: 'mini', action: async function (data) { that.handleSignOnPrize(data) } }
+          // { label: changePrams.m_btn_text, type: changePrams.type, size: 'mini', action: async function (data) { that.handleSignOnPrize(data) } }
         ]
       }
       this.$refs.prizeListRef.open(params)
-    }
+    },
+    toSignonPrizeList(index, row) {
+      this.$router.push({ path: '/signonPrizeList', query: { signonId: this.signon.id, number: row.index } })
+    },
   }
 }
 </script>

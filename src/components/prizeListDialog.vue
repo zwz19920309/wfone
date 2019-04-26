@@ -1,21 +1,23 @@
 <template>
-  <el-dialog title="奖品列表" :visible.sync="dialogShow">
-    <prize-list
-      :callBack="callBcakHandler"
-      :isEdit="isEdit"
-      :prizeList="cPrizeList"
-      :dynamic="dynamic"
-    ></prize-list>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="pageInfo.currentPage"
-      :page-sizes="[1, 2, 3, 4]"
-      :page-size="pageInfo.pageSize"
-      layout="sizes, prev, pager, next"
-      :total="cTotal"
-    ></el-pagination>
-  </el-dialog>
+  <div>
+    <el-dialog title="奖品列表" :visible.sync="dialogShow">
+      <prize-list
+        :callBack="callBcakHandler"
+        :isEdit="isEdit"
+        :prizeList="cPrizeList"
+        :dynamic="dynamic"
+      ></prize-list>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="pageInfo.currentPage"
+        :page-sizes="[1, 2, 3, 4]"
+        :page-size="pageInfo.pageSize"
+        layout="sizes, prev, pager, next"
+        :total="cTotal"
+      ></el-pagination>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -26,13 +28,14 @@ export default {
   },
   data() {
     return {
+      prizeNum: 0,
       dialogShow: false,
       cPrizeList: this.prizeList || [],
       cData: [],
       cTotal: 10,
       pageInfo: {
         currentPage: 1,
-        pageSize: 10
+        pageSize: 1
       },
       dynamic: null
     }
