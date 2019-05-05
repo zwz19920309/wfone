@@ -159,3 +159,8 @@ export const userSignon = data => fetch('/admin/signon/userSignon', data, 'POST'
  * 获取签到情况
  */
 export const getSelfSignon = data => fetch('/admin/signon/getSelfSignon', data, 'POST')
+
+/**
+ * 重新签到
+ */
+export const reSignon = data => fetch('/admin/signon/reSignon', data, 'POST')

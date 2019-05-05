@@ -17,6 +17,17 @@
       <div class="pad10">
         <signon-list-dialog :isDate="isDate" :signonList="dialogSignonList" ref="signonListRef"></signon-list-dialog>
       </div>
+      <div class="Pagination" style="text-align: left;margin-top: 10px;">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="pageInfo.page"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="pageInfo.pageSize"
+          layout="sizes, prev, pager, next, total"
+          :total="pageInfo.total"
+        ></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +50,11 @@ export default {
       handleType: 1,
       signonList: [],
       dialogSignonList: [],
+      pageInfo: {
+        page: 1,
+        pageSize: 10,
+        total: 0
+      },
       signonDynamic: {
         actionbutton: [
           {
@@ -77,8 +93,8 @@ export default {
     'signon-list-dialog': () => import('@/components/signonListDialog.vue')
   },
   created() {
-    this.sceneId = this.$route.query.id
-    this.initData({ sceneId: this.sceneId, type: 2 })
+    this.pageInfo.sceneId = this.sceneId = this.$route.query.id
+    this.initData(this.pageInfo)
   },
   methods: {
     async initData(params) {
@@ -87,6 +103,7 @@ export default {
       if (res.status === 200) {
         this.signonList = res.data.list
         this.scene = res.data.scene
+        this.pageInfo.total = res.data.total
       }
     },
     async openSignOn() {
@@ -202,6 +219,14 @@ export default {
       } else {
         this.$message.error('操作失败')
       }
+    },
+    async handleSizeChange(data) {
+      this.pageInfo.pageSize = data
+      this.initData(this.pageInfo)
+    },
+    async handleCurrentChange(data) {
+      this.pageInfo.page = data
+      this.initData(this.pageInfo)
     }
   }
 }

@@ -47,13 +47,27 @@
             <el-button type="primary" @click="onQuery">查询</el-button>
           </el-form-item>
         </el-form>
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-input v-model="test.reuid" placeholder="用户uid"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="test.reSceneId" placeholder="场景id"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="test.reSignDate" placeholder="补签日期"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onResign">补签</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getAwardRecordList, userSignon, getSelfSignon } from '@/api/getData'
+import { getAwardRecordList, userSignon, getSelfSignon, reSignon } from '@/api/getData'
 export default {
   data() {
     return {
@@ -61,7 +75,10 @@ export default {
         uid: '',
         sceneId: '',
         qUid: '',
-        qSecenId: ''
+        qSecenId: '',
+        reuid: '',
+        reSceneId: '',
+        reSignDate: ''
       },
       isEdit: true,
       recordList: [],
@@ -100,7 +117,11 @@ export default {
     },
     async onQuery() {
       console.log('@onQuery: -----')
-      await getSelfSignon({ uid: this.test.qUid, sceneId: this.test.qSecenId })
+      await getSelfSignon({ uid: this.test.qUid, sceneId: this.test.qSecenId, scenesignonId: this.test.qSecenId })
+    },
+    async onResign() {
+      console.log('@onResign: -----')
+      await reSignon({ uid: this.test.reuid, sceneId: this.test.reSceneId, resignDate: this.test.reSignDate })
     }
   }
 }
