@@ -65,10 +65,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <div
-        class="pad10"
-        v-show="(checkinTypeVal === 2 && resign.isResign === 2 && resign.cost === 2)"
-      >
+      <div class="pad10" v-show="(checkinTypeVal === 2 && resign.isResign === 2)">
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="可补签日期: ">
             <textarea
@@ -208,6 +205,16 @@ export default {
       }, 1000)
     },
     async submit() {
+      if (!this.params.name || !this.params.dateType || !this.params.checkinType || !this.params.desc) {
+        this.$message({ message: '请补充信息', type: 'warning' })
+        return
+      }
+      if (this.dateTypeVal === this.deteMethods.USERDEFINED) {
+        if (this.params.number === 0) {
+          this.$message({ message: '自定义周期不能为0', type: 'warning' })
+          return
+        }
+      }
       this.params.isResign = this.resign.isResign
       this.params.formId = this.resign.formId
       this.params.cost = this.resign.cost

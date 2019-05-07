@@ -9,12 +9,12 @@
     >
       <el-table-column type="selection" width="55" v-if="isEdit"></el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="date" label="签到类型" width="100">
+      <el-table-column prop="date" label="签到类型">
         <template slot-scope="scope">
           <span>{{scope.row.checktypename}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="签到周期" width="100">
+      <el-table-column prop="name" label="签到周期">
         <template slot-scope="scope">
           <span>{{scope.row.cycle_text.name}}</span>
           <span v-if="scope.row.cycle_text.type == 5">:{{scope.row.cycle_text.number}}(天)</span>
@@ -40,7 +40,7 @@
           >无</span>
         </template>
       </el-table-column>
-      <el-table-column label="生效时间" width="150" v-if="isDate">
+      <el-table-column label="生效时间" v-if="isDate">
         <template slot-scope="scope">
           <span v-if="scope.row.start_at">{{scope.row.start_at}}--{{scope.row.end_at}}</span>
           <span
@@ -167,6 +167,10 @@ export default {
       }
     },
     async handleSignOn(data) {
+      if (!data.name || !data.checkinype || !data.datetype || !data.rule_desc) {
+        this.$message({ message: '请完善信息', type: 'warning' })
+        return
+      }
       let res = await updateSignonById({
         number: data.cycleNum,
         id: this.signon.id,

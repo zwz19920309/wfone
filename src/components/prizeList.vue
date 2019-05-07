@@ -83,6 +83,10 @@ export default {
       this.$refs.newPrizeRef.open()
     },
     async editPrize(data) {
+      if (!data.id || !data.name || !data.note) {
+        this.$message({ message: '请完善信息', type: 'warning' })
+        return
+      }
       let fileData = new FormData()
       fileData.append('id', data.id)
       fileData.append('name', data.name)
@@ -97,6 +101,10 @@ export default {
       }
     },
     async addPrize(data) {
+      if (!data.name || !data.note || !data.icon) {
+        this.$message({ message: '请完善信息', type: 'warning' })
+        return
+      }
       let fileData = new FormData();
       fileData.append('name', data.name);
       fileData.append('note', data.note);

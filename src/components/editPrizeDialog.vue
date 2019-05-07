@@ -14,9 +14,9 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="上传图片">
-        {{showNewIcon}}
         <div class="upload-img-warp">
-          <upload-img id="pImagId" :callBack="handleIcon"></upload-img>
+          <span class="upload-btn">请上传</span>
+          <upload-img :callBack="handleIcon"></upload-img>
         </div>
         <div class="icon" v-show="showIcon">
           <img :src="prize.icon">
@@ -63,8 +63,6 @@ export default {
     handleIcon(file, e) {
       this.showIcon = false
       this.showNewIcon = true
-      console.log('showIcon: ' + this.showIcon + '; showNewIcon: ' + this.showNewIcon)
-      console.log('file: ', file)
       this.prize.icon = file
       this.$refs.icon.src = e.target.result
     }
@@ -73,7 +71,6 @@ export default {
   watch: {
     'prize': function (newVal, oldVal) {
       if (newVal) {
-        console.log('@newVal: ', newVal)
         this.cPrize = newVal
         if ((newVal.icon)) {
           this.showIcon = true
@@ -107,5 +104,12 @@ export default {
   float: left;
   margin-left: 30px;
   margin-right: 40px;
+  position: relative;
+}
+.upload-btn {
+  position: absolute;
+  width: 60px;
+  line-height: 30px;
+  left: 15px;
 }
 </style>

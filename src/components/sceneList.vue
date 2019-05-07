@@ -81,7 +81,11 @@ export default {
       func && func(data)
     },
     async handleScene(data) {
-      let res = await updateScene({ name: data.name, note: data.note, startAt: data.start_at, endAt: data.end_at, id: data.id })
+      if (!data.name || !data.note) {
+        this.$message({ message: '请完善信息', type: 'warning' })
+        return
+      }
+      let res = await updateScene({ name: data.name, note: data.note, id: data.id })
       if (res.status === 200) {
         this.$message({ message: '修改成功', type: 'success' })
         this.$refs.editScene.close()
@@ -90,7 +94,11 @@ export default {
     },
     async addNewScene(data) {
       console.log('@data: ', data)
-      let res = await addScene({ name: data.name, note: data.note, startAt: data.start_at, endAt: data.end_at, id: data.id })
+      if (!data.name || !data.note) {
+        this.$message({ message: '请完善信息', type: 'warning' })
+        return
+      }
+      let res = await addScene({ name: data.name, note: data.note })
       if (res.status === 200) {
         this.$message({ message: '添加成功', type: 'success' })
         this.$refs.newScene.close()

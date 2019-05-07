@@ -6,7 +6,6 @@ Vue.use(Router)
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage')
 const signonList = r => require.ensure([], () => r(require('@/page/signon/signonList')), 'signonList')
 const buildSignon = r => require.ensure([], () => r(require('@/page/signon/buildSignon')), 'buildSignon')
-const buildScene = r => require.ensure([], () => r(require('@/page/signon/buildScene')), 'buildScene')
 const sceneList = r => require.ensure([], () => r(require('@/page/signon/sceneList')), 'sceneList')
 const prizeList = r => require.ensure([], () => r(require('@/page/signon/prizeList')), 'prizeList')
 const scenesignon = r => require.ensure([], () => r(require('@/page/signon/scenesignon')), 'scenesignon')
@@ -33,11 +32,6 @@ export default new Router({
       }, {
         path: '/buildSignon',
         component: buildSignon,
-        meta: []
-      },
-      {
-        path: '/buildScene',
-        component: buildScene,
         meta: []
       },
       {

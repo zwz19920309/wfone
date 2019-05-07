@@ -1,6 +1,6 @@
  
 <template>
-  <div class="upload-Img">
+  <!-- <div class="upload-Img">
     <input
       class="uploadImg-com"
       v-on:change="uploadImgAction"
@@ -10,62 +10,62 @@
       accept="image/*"
     >
     <span class="upload-title" @click="autoupload">请上传</span>
-  </div>
+  </div>-->
+  <el-upload
+    class="avatar-uploader"
+    :auto-upload="false"
+    :action="actionUrl"
+    name="bankimg"
+    :show-file-list="false"
+    :on-change="changeAction"
+  ></el-upload>
 </template>
 
-<script>    
-export default {
-  mounted() {
+   
 
-  },
-  props: ['callBack', 'id'],
-  methods: {
-    uploadImgAction() {
-      let that = this;
-      let file = this.$refs.uploadImg.files[0];
-      let fReader = new FileReader();
-      fReader.readAsDataURL(file)
-      fReader.onload = function (e) {
-        that.callBack && that.callBack(file, e);
-        that.clear();
-      }
-    },
-    clear() {
-      this.$refs.uploadImg.value = '';
-    },
-    autoupload() {
-      document.getElementById(this.id).click();
+<<script>
+export default {  
+       data() {
+            return {
+              actionUrl:'',
+              ruleForm: { bankimg:''}
+            }
+       },
+       props: ['callBack'],
+    mounted () {
+    if (!window.FileReader) {
+        console.error('Your browser does not support FileReader API!')
     }
-  },
-  watch: {
-  }
+    this.fileReader = new FileReader()
+    },
+    methods: {
+      changeAction (options) {
+            console.log('@options: ', options)
+            let that = this
+            let file = options.raw
+            console.log('@files: ', file)
+            if (file) {
+                this.fileReader.readAsDataURL(file)
+            }          
+            this.fileReader.onload = (e) => {
+              console.log('@e: ', e)
+                that.callBack && that.callBack(file, e)
+                //let base64Str = this.fileReader.result.split(',')[1]
+               // this.ruleForm.bankimg = base64Str
+                //console.log('@base64Str: ', base64Str) 
+            }
+      }
+    }
 }
 </script>
-
-<style lang="less">
-.upload-Img {
+<style>
+.avatar-uploader {
   width: 100%;
   height: 100%;
   position: relative;
-  .uploadImg-com {
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    z-index: 1;
-  }
-  .upload-title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -30px;
-    margin-top: -13px;
-    display: block;
-    width: 60px;
-    height: 26px;
-    font-size: 14px;
-    text-align: center;
-    line-height: 26px;
-  }
+}
+.avatar-uploader .el-upload {
+  width: 100%;
+  height: 100%;
 }
 </style>
-
