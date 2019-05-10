@@ -24,7 +24,7 @@
       </el-table-column>
       <el-table-column  label="数量">
          <template slot-scope="scope">
-            <span>{{scope.row.prizeNum}}</span>
+            <span>{{scope.row.prize_num}}</span>
         </template>
       </el-table-column>
       <el-table-column class="header" label="图片icon" width="150">

@@ -27,6 +27,14 @@
       <div class="mar10 pad10">
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
+            <el-input v-model="test.qAppId" placeholder="用户appid"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="test.qAppSecret" placeholder="用户appsecret"></el-input>
+          </el-form-item>
+        </el-form>
+        <el-form :inline="true" class="demo-form-inline">
+          <el-form-item>
             <el-input v-model="test.uid" placeholder="用户uid"></el-input>
           </el-form-item>
           <el-form-item>
@@ -43,6 +51,7 @@
           <el-form-item>
             <el-input v-model="test.qSecenId" placeholder="场景id"></el-input>
           </el-form-item>
+
           <el-form-item>
             <el-button type="primary" @click="onQuery">查询</el-button>
           </el-form-item>
@@ -76,6 +85,8 @@ export default {
         sceneId: '',
         qUid: '',
         qSecenId: '',
+        qAppId: '077260856359fa5f0cc8eb394129fb97',
+        qAppSecret: 'f7b146404bc35cc81bbd272979ee4769',
         reuid: '',
         reSceneId: '',
         reSignDate: ''
@@ -113,15 +124,15 @@ export default {
     },
     async onSubmit() {
       console.log('@onSubmit')
-      await userSignon({ uid: this.test.uid, sceneId: this.test.sceneId })
+      await userSignon({ uid: this.test.uid, sceneid: this.test.sceneId, appid: this.test.qAppId, appsecret: this.test.qAppSecret })
     },
     async onQuery() {
       console.log('@onQuery: -----')
-      await getSelfSignon({ uid: this.test.qUid, sceneId: this.test.qSecenId, scenesignonId: this.test.qSecenId })
+      await getSelfSignon({ uid: this.test.qUid, sceneid: this.test.qSecenId, scenesignonId: this.test.qSecenId, appid: this.test.qAppId, appsecret: this.test.qAppSecret })
     },
     async onResign() {
       console.log('@onResign: -----')
-      await reSignon({ uid: this.test.reuid, sceneId: this.test.reSceneId, resignDate: this.test.reSignDate })
+      await reSignon({ uid: this.test.reuid, sceneid: this.test.reSceneId, date: this.test.reSignDate, appid: this.test.qAppId, appsecret: this.test.qAppSecret })
     }
   }
 }

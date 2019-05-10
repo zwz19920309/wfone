@@ -11,6 +11,8 @@
       <el-table-column prop="id" label="场景id" width="80"></el-table-column>
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
       <el-table-column prop="note" label="描述"></el-table-column>
+      <el-table-column prop="app_id" label="场景appid" width="180"></el-table-column>
+      <el-table-column prop="app_secret" label="场景appsecret" width="180"></el-table-column>
       <!-- <el-table-column prop="start_at" :formatter="dateFormat" label="开始时间"></el-table-column>
       <el-table-column prop="end_at" :formatter="dateFormat" label="结束时间"></el-table-column>-->
       <el-table-column label="详情">

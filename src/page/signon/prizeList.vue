@@ -81,7 +81,7 @@ export default {
       cycleNum: 0,
       pageInfo: {
         page: 1,
-        pageSize: 1
+        pageSize: 5
       }
     }
   },
@@ -119,8 +119,7 @@ export default {
       await this.getPrizesBySignon()
     },
     async insureNumber() {
-      console.log('@prizeNum: ', this.prizeNum)
-      let res = await signonBulkAddPrizes({ id: this.signon.id, prizeNum: this.prizeNum, prizeId: this.sizeOnPrize.id, number: this.prize.index })
+      let res = await signonBulkAddPrizes({ id: this.signon.id, pnum: this.prizeNum, pid: this.sizeOnPrize.id, number: this.prize.index })
       if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
         this.numDialogShow = false
@@ -174,7 +173,7 @@ export default {
     async openPrizeList(index, row, type) {
       this.type = type
       this.prize = row
-      this.pageInfo = { page: 1, pageSize: 1 }
+      this.pageInfo = { page: 1, pageSize: 5 }
       let res = await this.getPrizesBySignon()
       // if (!res) {
       //   this.type === 1 ? this.$message.error('暂无新奖品') : this.$message.error('未配置奖品')

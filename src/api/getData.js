@@ -153,14 +153,14 @@ export const getAwardRecordList = data => fetch('/admin/awardrecord/getAwardReco
 /**
  * 奖励记录列表
  */
-export const userSignon = data => fetch('/admin/signon/userSignon', data, 'POST')
+export const userSignon = data => fetch('/client/signon/userSignon', data, 'POST')
 
 /**
  * 获取签到情况
  */
-export const getSelfSignon = data => fetch('/admin/signon/getSelfSignon', data, 'POST')
+export const getSelfSignon = data => fetch('/client/signon/getSelfSignon', data, 'POST')
 
 /**
  * 重新签到
  */
-export const reSignon = data => fetch('/admin/signon/reSignon', data, 'POST')
+export const reSignon = data => fetch('/client/signon/reSignon', data, 'POST')

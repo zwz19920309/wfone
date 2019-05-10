@@ -11,7 +11,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="pageInfo.currentPage"
-        :page-sizes="[1, 2, 3, 4]"
+        :page-sizes="[5, 10, 15, 20]"
         :page-size="pageInfo.pageSize"
         layout="sizes, prev, pager, next"
         :total="cTotal"
@@ -35,7 +35,7 @@ export default {
       cTotal: 10,
       pageInfo: {
         currentPage: 1,
-        pageSize: 1
+        pageSize: 5
       },
       dynamic: null
     }

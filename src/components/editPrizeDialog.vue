@@ -1,31 +1,41 @@
 <template>
   <el-dialog title="奖品管理" :visible.sync="dialogShow" @close="close">
-    <el-form :inline="true">
-      <el-form-item label="名称">
-        <el-input placeholder="请填写奖品名称" v-model="cPrize.name"></el-input>
-      </el-form-item>
-      <el-form-item label="奖品描述">
-        <el-input
-          type="textarea"
-          :rows="5"
-          style="width: 400px;"
-          placeholder="请填写描述"
-          v-model="cPrize.note"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="上传图片">
-        <div class="upload-img-warp">
-          <span class="upload-btn">请上传</span>
-          <upload-img :callBack="handleIcon"></upload-img>
-        </div>
-        <div class="icon" v-show="showIcon">
-          <img :src="prize.icon">
-        </div>
-        <div class="icon" v-show="showNewIcon">
-          <img ref="icon">
-        </div>
-      </el-form-item>
-    </el-form>
+    <div>
+      <el-form :inline="true">
+        <el-form-item label="名称">
+          <el-input placeholder="请填写奖品名称" v-model="cPrize.name"></el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div>
+      <el-form>
+        <el-form-item label="奖品描述">
+          <el-input
+            type="textarea"
+            :rows="5"
+            style="width: 400px;"
+            placeholder="请填写描述"
+            v-model="cPrize.note"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div>
+      <el-form>
+        <el-form-item label="上传图片">
+          <div class="upload-img-warp">
+            <span class="upload-btn">请上传</span>
+            <upload-img :callBack="handleIcon"></upload-img>
+          </div>
+          <div class="icon" v-show="showIcon">
+            <img :src="prize.icon">
+          </div>
+          <div class="icon" v-show="showNewIcon">
+            <img ref="icon">
+          </div>
+        </el-form-item>
+      </el-form>
+    </div>
     <div class="pad10 t-right">
       <el-button type="primary" @click="submit">确认</el-button>
     </div>
