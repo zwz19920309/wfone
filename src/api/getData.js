@@ -46,42 +46,42 @@ export const updateSignonById = data => fetch('/admin/signon/updateSignonById', 
 export const bulkDeleteSignOn = data => fetch('/admin/signon/bulkDeleteSignOn', data, 'POST')
 
 /**
- * 获取场景列表
+ * 获取应用列表
  */
 export const getSceneList = data => fetch('/admin/scene/getSceneList', data, 'POST')
 
 /**
- * 新建签到场景
+ * 新建签到应用
  */
 export const addScene = data => fetch('/admin/scene/addScene', data, 'POST')
 
 /**
- * 新建签到场景
+ * 新建签到应用
  */
 export const updateScene = data => fetch('/admin/scene/updateScene', data, 'POST')
 
 /**
- * 批量删除签到场景
+ * 批量删除签到应用
  */
 export const bulkDeleteScene = data => fetch('/admin/scene/bulkDeleteScene', data, 'POST')
 
 /**
- * 批量新建场景签到活动数据
+ * 批量新建应用签到活动数据
  */
 export const bulkAddScenesign = data => fetch('/admin/scenesign/bulkAddScenesign', data, 'POST')
 /**
- * 批量删除场景签到活动数据
+ * 批量删除应用签到活动数据
  */
 
 export const bulkDeleteScenesign = data => fetch('/admin/scenesign/bulkDeleteScenesign', data, 'POST')
 
 /**
- * 根据id获取签到场景
+ * 根据id获取签到应用
  */
 export const getSignonById = data => fetch('/admin/signon/getSignonById', data, 'POST')
 
 /**
- * 根据场景id获取签到活动列表
+ * 根据应用id获取签到活动列表
  */
 export const getSignonListBySceneId = data => fetch('/admin/signon/getSignonListBySceneId', data, 'POST')
 

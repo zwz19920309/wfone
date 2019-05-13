@@ -39,10 +39,10 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-plus"></i>场景管理
+              <i class="el-icon-plus"></i>应用管理
             </template>
             <el-menu-item index="sceneList">
-              <i class="el-icon-tickets"></i>场景列表
+              <i class="el-icon-tickets"></i>应用列表
             </el-menu-item>
           </el-submenu>
           <el-submenu index="3">
@@ -76,7 +76,7 @@
       </el-col>
       <el-col :span="20" style="height: 100%;overflow: auto;">
         <!-- <keep-alive> -->
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
         <!-- </keep-alive> -->
       </el-col>
     </el-row>

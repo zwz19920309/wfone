@@ -4,7 +4,12 @@
       <div class="mar10">
         <div class="pad10">签到活动模板列表</div>
         <div class="pad10">
-          <signon-list :callBack="callBcakHander" :isEdit="isEdit" :signonList="signonList"></signon-list>
+          <signon-list
+            :pid="platformId"
+            :callBack="callBcakHander"
+            :isEdit="isEdit"
+            :signonList="signonList"
+          ></signon-list>
         </div>
         <div class="Pagination" style="text-align: left;margin-top: 10px;">
           <el-pagination
@@ -27,10 +32,10 @@ import { getSignonList } from '@/api/getData'
 export default {
   data() {
     return {
+      platformId: '',
       isEdit: true,
       signonList: [],
       pageInfo: {
-        pid: 1,
         currentPage: 1,
         pageSize: 10,
         total: 0

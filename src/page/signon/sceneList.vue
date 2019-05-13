@@ -6,9 +6,11 @@
       </div>
       <div class="mar10">
         <scene-list
+          :pid="platformId"
           :callBack="callBackHanlder"
           :sceneList="sceneList"
           :isEdit="isEdit"
+          :jump="jumpToScene"
           ref="sceneListRef"
         ></scene-list>
         <div class="Pagination" style="text-align: left;margin-top: 10px;">
@@ -32,6 +34,7 @@ import { getSceneList } from '@/api/getData'
 export default {
   data() {
     return {
+      platformId: '',
       scene: {},
       handleType: 0,
       sceneList: [],
@@ -49,7 +52,6 @@ export default {
   },
   created() {
     this.platformId = this.$route.query.platformId
-    console.log('@platformId: ', this.platformId)
     this.initData(this.pageInfo)
   },
   methods: {
@@ -70,6 +72,9 @@ export default {
     async handleCurrentChange(data) {
       this.pageInfo.page = data
       this.initData(this.pageInfo)
+    },
+    jumpToScene(row) {
+      this.$router.push({ path: '/scenesignon', query: { id: row.id, platformId: this.platformId } })
     }
   }
 }

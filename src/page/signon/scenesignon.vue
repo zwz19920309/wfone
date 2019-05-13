@@ -2,7 +2,7 @@
   <div class="fillcontain">
     <div class="mar10">
       <div class="pad10">
-        <h4>场景: {{scene.name}}</h4>
+        <h4>应用: {{scene.name}}</h4>
       </div>
       <div class="pad10">
         <signon-list
@@ -45,6 +45,7 @@ export default {
       isEdit: true,
       isDate: true,
       sceneId: 0,
+      platformId: '',
       scene: {},
       simplify: true,
       handleType: 1,
@@ -93,12 +94,13 @@ export default {
     'signon-list-dialog': () => import('@/components/signonListDialog.vue')
   },
   created() {
-    this.pageInfo.sceneId = this.sceneId = this.$route.query.id
-    this.initData(this.pageInfo)
+    this.platformId = this.$route.query.platformId
+    this.sceneId = this.$route.query.id
+    this.initData({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, sceneId: this.sceneId, pid: this.platformId, type: 2 })
   },
   methods: {
     async initData(params) {
-      params = params || { sceneId: this.sceneId, type: 2 }
+      params = params || { page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, sceneId: this.sceneId, pid: this.platformId, type: 2 }
       let res = await getSignonListBySceneId(params)
       if (res.status === 200) {
         this.signonList = res.data.list
@@ -131,6 +133,7 @@ export default {
         ]
       }
       let res = await getSignonListBySceneId({
+        pid: this.platformId,
         sceneId: this.sceneId,
         type: 1
       })

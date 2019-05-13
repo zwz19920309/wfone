@@ -54,7 +54,7 @@ export default {
   data() {
     let that = this
     return {
-      cPid: '',
+      cPid: '' || this.pid,
       prize: { name: '', note: '' },
       newPrize: { name: '', note: '' },
       prizes: [],
@@ -71,6 +71,7 @@ export default {
     }
   },
   created() {
+    console.log('@prizeList-Cid: ', this.cPid)
   },
   methods: {
     async func(func, data) {
@@ -106,8 +107,6 @@ export default {
         this.$message({ message: '请完善信息', type: 'warning' })
         return
       }
-      console.log('@this.cPid: ', this.cPid)
-      console.log('@data: ', data)
       let fileData = new FormData();
       fileData.append('pid', this.cPid);
       fileData.append('name', data.name);
@@ -151,13 +150,12 @@ export default {
   props: ['prizeList', 'isEdit', 'callBack', 'dynamic', 'total', 'pid'], // isEdit false: 只显示：true: 可操作, 'dynamic': 外部传入操作按钮详情以及回调函数
   watch: {
     'dynamic': function (newVal, oldVal) {
+      this.cPid = newVal
       this.cDynamic = newVal
     },
     'pid': function (newVal, oldVal) {
-      console.log('cPid: 1312312312312', this.cPid)
       this.cPid = newVal
-      console.log('cPid: ', this.cPid)
-    },
+    }
   }
 }
 </script>

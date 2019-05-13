@@ -50,7 +50,6 @@
           >添加时间</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="createdAt" label="创建时间" v-if="!simplify"></el-table-column> -->
       <el-table-column prop="desc" label="操作" width="180" v-if="isEdit">
         <template slot-scope="scope">
           <el-button
@@ -77,6 +76,9 @@
       <edit-signon-dialog :callBack="handleSignOn" :signon="signon" ref="editSignon"></edit-signon-dialog>
     </div>
     <div>
+      <edit-signon-dialog :callBack="handleNewSignOn" ref="newSignon"></edit-signon-dialog>
+    </div>
+    <div>
       <date-dialog :callBack="handleDate" ref="dateRef"></date-dialog>
     </div>
   </div>
@@ -86,6 +88,7 @@
 import {
   deleteSignon,
   bulkDeleteSignOn,
+  addSignon,
   updateSignonById
 } from '@/api/getData'
 export default {
@@ -96,6 +99,7 @@ export default {
   data() {
     let that = this
     return {
+      cPid: '' || this.pid,
       signon: {},
       signons: [],
       cDynamic: this.dynamic || {
@@ -119,6 +123,14 @@ export default {
         ],
         bluckActionbutton: [
           {
+            label: '新建模板',
+            type: 'primary',
+            size: 'mini',
+            action: async function () {
+              await that.openNewSignOn()
+            }
+          },
+          {
             label: '批量删除',
             type: 'danger',
             size: 'mini',
@@ -130,13 +142,26 @@ export default {
       }
     }
   },
-  created() { },
+  created() {
+    console.log('signonComponent: ', this.cPid)
+  },
   methods: {
     async func(func, data) {
       func && func(data)
     },
     async handleEdit(row) {
-      this.signon = row
+      console.log('@:this.row: ', row)
+      this.signon = {
+        name: row.name, rule_desc: row.rule_desc, checkinype: row.checktypetype,
+        datetype: row.cycle_text.type,
+        cycleNum: row.cycle_text.number || DATETYPEVALUE[row.cycle_text.type],
+        id: row.id,
+        isResign: (row.extra_text && row.extra_text.resign && row.extra_text.resign.resign) ? row.extra_text.resign.resign : 0,
+        cost: (row.extra_text && row.extra_text.resign && row.extra_text.resign.cost) ? row.extra_text.resign.cost : 1,
+        formId: (row.extra_text && row.extra_text.resign && row.extra_text.resign.form_id) ? row.extra_text.resign.form_id : 1,
+        resignDates: (row.extra_text && row.extra_text.resign && row.extra_text.resign.resign_dates) ? row.extra_text.resign.resign_dates : []
+      }
+      console.log('@:this.signon: ', this.signon)
       this.$refs.editSignon.open()
     },
     async handleDelete(row) {
@@ -171,19 +196,35 @@ export default {
         this.$message({ message: '请完善信息', type: 'warning' })
         return
       }
-      let res = await updateSignonById({
-        number: data.cycleNum,
-        id: this.signon.id,
-        name: data.name,
-        checkinTypeId: data.checkinype,
-        dateTypeId: data.datetype,
-        ruleDesc: data.rule_desc,
-        startAt: data.startAt,
-        endAt: data.endAt
-      })
+      let params = { id: this.signon.id, name: data.name, checkinType: data.checkinype, dateType: data.datetype, number: data.cycleNum, desc: data.rule_desc, formId: data.formId, isResign: data.isResign, cost: data.cost, pid: this.cPid }
+      if (params.cost === 2) {
+        params.resignDates = data.resignDates
+      }
+      let res = await updateSignonById(params)
       if (res.status === 200) {
         this.$message({ message: '修改成功', type: 'success' })
         this.$refs.editSignon.close()
+        this.callBack && this.callBack()
+      }
+    },
+    async openNewSignOn(data) {
+      this.$refs.newSignon.open()
+    },
+    async handleNewSignOn(data) {
+      //  { name: '', rule_desc: '', period: '', checkinype: 1, datetype: 1, cycleNum: '0', isResign: 0, formId: 1, cost: 1, resignDates: [] },
+      console.log('@data: ', data)
+      if (!data.name || !data.rule_desc || !data.checkinype || !data.datetype) {
+        this.$message({ message: '请完善信息', type: 'warning' })
+        return
+      }
+      let params = { name: data.name, checkinType: data.checkinype, dateType: data.datetype, number: data.cycleNum, desc: data.rule_desc, formId: data.formId, isResign: data.isResign, cost: data.cost, pid: this.cPid }
+      if (params.cost === 2) {
+        params.resignDates = data.resignDates
+      }
+      let res = await addSignon(params)
+      if (res.status === 200) {
+        this.$message({ message: '操作成功', type: 'success' })
+        this.$refs.newSignon.close()
         this.callBack && this.callBack()
       }
     },
@@ -203,7 +244,12 @@ export default {
       this.$router.push({ path: '/resignPlan', query: { id: row.id } })
     }
   },
-  props: ['signonList', 'isEdit', 'isDate', 'simplify', 'callBack', 'dynamic']
+  props: ['signonList', 'isEdit', 'isDate', 'simplify', 'callBack', 'dynamic', 'pid'],
+  watch: {
+    'pid': function (newVal, oldVal) {
+      this.cPid = newVal
+    }
+  }
 }
 </script>
 

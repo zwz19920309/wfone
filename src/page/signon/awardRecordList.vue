@@ -38,7 +38,7 @@
             <el-input v-model="test.uid" placeholder="用户uid"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="test.sceneId" placeholder="场景id"></el-input>
+            <el-input v-model="test.sceneId" placeholder="应用id"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">签到</el-button>
@@ -49,7 +49,7 @@
             <el-input v-model="test.qUid" placeholder="用户uid"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="test.qSecenId" placeholder="场景id"></el-input>
+            <el-input v-model="test.qSecenId" placeholder="应用id"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -61,7 +61,7 @@
             <el-input v-model="test.reuid" placeholder="用户uid"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="test.reSceneId" placeholder="场景id"></el-input>
+            <el-input v-model="test.reSceneId" placeholder="应用id"></el-input>
           </el-form-item>
           <el-form-item>
             <el-input v-model="test.reSignDate" placeholder="补签日期"></el-input>

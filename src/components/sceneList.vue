@@ -8,7 +8,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" v-if="isEdit"></el-table-column>
-      <el-table-column prop="id" label="应用id" width="80"></el-table-column>
+      <!-- <el-table-column prop="id" label="应用id" width="80"></el-table-column> -->
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
       <el-table-column prop="note" label="描述"></el-table-column>
       <el-table-column prop="app_id" label="应用appid" width="180"></el-table-column>
@@ -17,7 +17,7 @@
       <el-table-column prop="end_at" :formatter="dateFormat" label="结束时间"></el-table-column>-->
       <el-table-column label="详情">
         <template slot-scope="scope">
-          <span class="detail" @click="toSceneSignonList(scope.$index, scope.row)">签到活动列表</span>
+          <span class="detail" @click="jumpAction(scope.$index, scope.row)">签到模板列表</span>
         </template>
       </el-table-column>
       <el-table-column prop="desc" label="操作" width="180" v-if="isEdit">
@@ -59,6 +59,7 @@ export default {
   data() {
     let that = this
     return {
+      cPid: '' || this.pid,
       newScene: { name: '', note: '', start_at: '', end_at: '' },
       scene: {},
       scenes: {},
@@ -77,6 +78,7 @@ export default {
     }
   },
   created() {
+    console.log('@s')
   },
   methods: {
     async func(func, data) {
@@ -100,7 +102,7 @@ export default {
         this.$message({ message: '请完善信息', type: 'warning' })
         return
       }
-      let res = await addScene({ name: data.name, note: data.note, pid: 1 })
+      let res = await addScene({ name: data.name, note: data.note, pid: this.cPid })
       if (res.status === 200) {
         this.$message({ message: '添加成功', type: 'success' })
         this.$refs.newScene.close()
@@ -145,17 +147,20 @@ export default {
       let date = new Date(row[column.property])
       return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日'
     },
-    toSceneSignonList(index, row) {
-      this.$router.push({ path: '/scenesignon', query: { id: row.id } })
+    jumpAction(index, row) {
+      this.jump && this.jump(row)
     }
   },
-  props: ['sceneList', 'isEdit', 'callBack', 'dynamic'], // isEdit false: 只显示：true: 可操作, 'dynamic': 外部传入操作按钮详情以及回调函数
+  props: ['sceneList', 'isEdit', 'callBack', 'dynamic', 'jump', 'pid'], // isEdit false: 只显示：true: 可操作, 'dynamic': 外部传入操作按钮详情以及回调函数
   watch: {
     'dynamic': function (newVal, oldVal) {
       this.cDynamic = newVal
     },
     'sceneList': function (newVal, oldVal) {
       this.cSceneList = newVal
+    },
+    'pid': function (newVal, oldVal) {
+      this.cPid = newVal
     }
   }
 }

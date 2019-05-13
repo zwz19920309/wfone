@@ -1,15 +1,15 @@
 <template>
-  <el-dialog title="编辑场景" :visible.sync="dialogShow">
+  <el-dialog title="编辑应用" :visible.sync="dialogShow">
     <div>
       <el-form :inline="true">
         <el-form-item label="名称">
-          <el-input placeholder="请填写场景名称" v-model="cScene.name"></el-input>
+          <el-input placeholder="请填写应用名称" v-model="cScene.name"></el-input>
         </el-form-item>
       </el-form>
     </div>
     <div>
       <el-form>
-        <el-form-item label="场景描述">
+        <el-form-item label="应用描述">
           <el-input
             type="textarea"
             :rows="5"

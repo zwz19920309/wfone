@@ -48,7 +48,6 @@ export default {
   },
   created() {
     this.platformId = this.$route.query.platformId
-    console.log('@123123123123platformId: ', this.platformId)
     this.initData(this.pageInfo)
   },
   methods: {
