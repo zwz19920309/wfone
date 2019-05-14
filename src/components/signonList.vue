@@ -17,7 +17,7 @@
       <el-table-column prop="name" label="签到周期">
         <template slot-scope="scope">
           <span>{{scope.row.cycle_text.name}}</span>
-          <span v-if="scope.row.cycle_text.type == 5">:{{scope.row.cycle_text.number}}(天)</span>
+          <span v-if="scope.row.cycle_text.type == 5">{{scope.row.cycle_text.number}}(天)</span>
         </template>
       </el-table-column>
       <el-table-column v-if="!simplify" prop="rule_desc" label="规则描述" width="250"></el-table-column>
@@ -197,9 +197,9 @@ export default {
         return
       }
       let params = { id: this.signon.id, name: data.name, checkinType: data.checkinype, dateType: data.datetype, number: data.cycleNum, desc: data.rule_desc, formId: data.formId, isResign: data.isResign, cost: data.cost, pid: this.cPid }
-      if (params.cost === 2) {
-        params.resignDates = data.resignDates
-      }
+      // if (params.cost === 2) {
+      params.resignDates = data.resignDates
+      // }
       let res = await updateSignonById(params)
       if (res.status === 200) {
         this.$message({ message: '修改成功', type: 'success' })
@@ -218,9 +218,9 @@ export default {
         return
       }
       let params = { name: data.name, checkinType: data.checkinype, dateType: data.datetype, number: data.cycleNum, desc: data.rule_desc, formId: data.formId, isResign: data.isResign, cost: data.cost, pid: this.cPid }
-      if (params.cost === 2) {
-        params.resignDates = data.resignDates
-      }
+      // if (params.cost === 2) {
+      params.resignDates = data.resignDates
+      // }
       let res = await addSignon(params)
       if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
@@ -238,10 +238,10 @@ export default {
       this.$refs.dateRef.close()
     },
     toPrizeList(index, row) {
-      this.$router.push({ path: '/prizeList', query: { id: row.id } })
+      this.$router.push({ path: '/prizeList', query: { id: row.id, platformId: this.cPid } })
     },
     toResignPlan(index, row) {
-      this.$router.push({ path: '/resignPlan', query: { id: row.id } })
+      this.$router.push({ path: '/resignPlan', query: { id: row.id, platformId: this.cPid } })
     }
   },
   props: ['signonList', 'isEdit', 'isDate', 'simplify', 'callBack', 'dynamic', 'pid'],

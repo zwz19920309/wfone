@@ -41,12 +41,12 @@ export default {
     }
   },
   created() {
-    this.initData(this.pageInfo)
+    this.initData({ page: this.pageInfo.currentPage, pageSize: this.pageInfo.pageSize })
   },
   methods: {
-    async initData(pageInfo) {
+    async initData(params) {
       if (this.cPrizeList && this.cPrizeList.length < 1) {
-        let res = await getPrizeList(pageInfo)
+        let res = await getPrizeList(params)
         if (res.status === 200) {
           this.cPrizeList = res.data.list
           this.cTotal = res.data.total
@@ -57,7 +57,7 @@ export default {
       this.cData = data
     },
     callBcakHandler() {
-      this.initData(this.pageInfo)
+      this.initData({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
     },
     async handleSizeChange(data) {
       this.sizeChange && this.sizeChange(data)
@@ -74,7 +74,7 @@ export default {
       this.dialogShow = false
     }
   },
-  props: ['sizeChange', 'currentChange', 'isEdit', 'prizeList', 'total'],
+  props: ['sizeChange', 'currentChange', 'isEdit', 'prizeList', 'total', 'pid'],
   watch: {
     prizeList: function (newVal, oldVal) {
       this.cPrizeList = newVal

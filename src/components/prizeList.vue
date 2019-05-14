@@ -150,7 +150,6 @@ export default {
   props: ['prizeList', 'isEdit', 'callBack', 'dynamic', 'total', 'pid'], // isEdit false: 只显示：true: 可操作, 'dynamic': 外部传入操作按钮详情以及回调函数
   watch: {
     'dynamic': function (newVal, oldVal) {
-      this.cPid = newVal
       this.cDynamic = newVal
     },
     'pid': function (newVal, oldVal) {

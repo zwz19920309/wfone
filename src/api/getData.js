@@ -169,3 +169,7 @@ export const reSignon = data => fetch('/client/signon/reSignon', data, 'POST')
 *获取平台列表
 */
 export const getPlatFormList = data => fetch('/admin/platform/getPlatFormList', data, 'POST')
+/** 
+*添加平台
+*/
+export const addPlatForm = data => fetch('/admin/platform/addPlatForm', data, 'POST')

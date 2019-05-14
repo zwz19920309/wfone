@@ -67,6 +67,7 @@ import { getSignonById, getPrizeList, signonBulkAddPrizes, signonBulkDeletePrize
 export default {
   data() {
     return {
+      platformId: '',
       numDialogShow: false,
       prizeNum: 1,
       prizes: [],
@@ -90,6 +91,7 @@ export default {
   },
   created() {
     this.sceneId = this.$route.query.id
+    this.platformId = this.$route.query.platformId
     this.initData(this.sceneId)
   },
   methods: {
@@ -98,8 +100,12 @@ export default {
       let prizes = []
       if (res.status === 200) {
         this.signon = res.data
-        this.cycleNum = this.signon.cycle_text.number ? this.signon.cycle_text.number : DATETYPEVALUE[this.signon.cycle_text.type]
-        for (let m = 1;m <= this.cycleNum;m++) {
+        if (this.signon.cycle_text.type === 5) {
+          this.cycleNum = this.signon.cycle_text.number
+        } else {
+          this.cycleNum = DATETYPEVALUE[this.signon.cycle_text.type]
+        }
+        for (let m = 1; m <= this.cycleNum; m++) {
           if (this.signon.prizes_text && this.signon.prizes_text.prizes && this.signon.prizes_text.prizes[0] && this.signon.prizes_text.prizes[0][m]) {
             prizes.push({ index: m, prizeIds: this.signon.prizes_text.prizes[0][m] })
           } else {
@@ -108,7 +114,6 @@ export default {
         }
         this.prizes = prizes
       }
-      console.log('signon: ', this.signon)
     },
     async handleSizeChange(data) {
       this.pageInfo.pageSize = data
@@ -156,7 +161,7 @@ export default {
       // }
     },
     async getPrizesBySignon() {
-      let res = await getPrizeList({ id: this.signon.id, number: this.prize.index, type: this.type, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: 1 })
+      let res = await getPrizeList({ id: this.signon.id, number: this.prize.index, type: this.type, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: this.platformId })
       if (res.status === 200) {
         if (!res.data.list || res.data.list.length < 1) {
           return false

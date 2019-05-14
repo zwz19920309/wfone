@@ -17,18 +17,19 @@
               <i class="el-icon-menu"></i>
               <span>平台</span>
             </template>
-            <el-submenu v-for="menu in menus" :key="menu.index" index="menu.index">
+            <el-submenu v-for="menu in menus" :key="menu.index" :index="menu.index">
               <template slot="title">{{menu.name}}</template>
               <el-menu-item
                 v-for="submenu in menu.submenus"
                 :key="submenu.index"
                 :index="submenu.path"
               >{{submenu.name}}</el-menu-item>
-              <!-- <el-menu-item index="sceneList">应用</el-menu-item>
-              <el-menu-item index="signonList">模板</el-menu-item>
-              <el-menu-item index="awardList">奖品</el-menu-item>-->
             </el-submenu>
+            <el-menu-item index="platform">
+              <span slot="title">新建</span>
+            </el-menu-item>
           </el-submenu>
+
           <!-- <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-plus"></i>设置
@@ -113,7 +114,6 @@ export default {
       let res = await getPlatFormList({})
       if (res.status === 200) {
         this.menus = res.data.list
-        console.log()
       }
     },
     async goToPath(params) {

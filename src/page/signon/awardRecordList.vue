@@ -38,9 +38,6 @@
             <el-input v-model="test.uid" placeholder="用户uid"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="test.sceneId" placeholder="应用id"></el-input>
-          </el-form-item>
-          <el-form-item>
             <el-button type="primary" @click="onSubmit">签到</el-button>
           </el-form-item>
         </el-form>
@@ -49,19 +46,12 @@
             <el-input v-model="test.qUid" placeholder="用户uid"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="test.qSecenId" placeholder="应用id"></el-input>
-          </el-form-item>
-
-          <el-form-item>
             <el-button type="primary" @click="onQuery">查询</el-button>
           </el-form-item>
         </el-form>
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
             <el-input v-model="test.reuid" placeholder="用户uid"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="test.reSceneId" placeholder="应用id"></el-input>
           </el-form-item>
           <el-form-item>
             <el-input v-model="test.reSignDate" placeholder="补签日期"></el-input>
@@ -81,12 +71,13 @@ export default {
   data() {
     return {
       test: {
+        platformId: '',
         uid: '',
         sceneId: '',
         qUid: '',
         qSecenId: '',
-        qAppId: '077260856359fa5f0cc8eb394129fb97',
-        qAppSecret: 'f7b146404bc35cc81bbd272979ee4769',
+        qAppId: 'QycKxxnmqsVXfVQCplti',
+        qAppSecret: '40b11275788252ca5a9d44c0142f382f',
         reuid: '',
         reSceneId: '',
         reSignDate: ''
@@ -104,11 +95,13 @@ export default {
     'prize-list': () => import('@/components/prizeList.vue')
   },
   created() {
-    this.initData(this.pageInfo)
+    this.platformId = this.$route.query.platformId
+    console.log('@platformId:', this.platformId)
+    this.initData({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: this.platformId })
   },
   methods: {
     async initData(params) {
-      let res = await getAwardRecordList({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
+      let res = await getAwardRecordList(params)
       if (res.status === 200) {
         this.recordList = res.data.list
         this.pageInfo.total = res.data.total
