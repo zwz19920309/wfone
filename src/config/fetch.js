@@ -1,76 +1,83 @@
-import { baseUrl } from './env'
-import router from '@/router'
+import {
+  baseUrl
+} from './env'
 
 export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase()
   url = baseUrl + url
-  if (type === 'GET') {
+
+  if (type == 'GET') {
     let dataStr = '' // 数据拼接字符串
     Object.keys(data).forEach(key => {
-	  dataStr += key + '=' + data[key] + '&'
+      dataStr += key + '=' + data[key] + '&'
     })
+
     if (dataStr !== '') {
-	  dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'))
-	  url = url + '?' + dataStr
+      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'))
+      url = url + '?' + dataStr
     }
   }
-  if (window.fetch && method === 'fetch') {
-    let jwt = localStorage.getItem('jwt')
+
+  if (window.fetch && method == 'fetch') {
     let requestConfig = {
-      credentials: 'omit',
+      credentials: 'include',
       method: type,
-	  headers: {
-        'Accept': 'application/json'
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cookie': 'cookie'
       },
       mode: 'cors',
       cache: 'force-cache'
     }
-    !(data instanceof FormData) && (requestConfig.headers['Content-Type'] = 'application/json')
-    jwt && (requestConfig.headers['Authorization'] = `Bearer ${jwt}`)
-    if (type === 'POST') {
+
+    if (type == 'POST') {
       Object.defineProperty(requestConfig, 'body', {
-        value: data instanceof FormData ? data : JSON.stringify(data)
+        value: JSON.stringify(data)
       })
     }
+
     try {
-	  const response = await fetch(url, requestConfig)
-	  const responseJson = await response.json()
-	  if (responseJson.code === 20) {
-        console.log('tokem 超时')
-        router.push('/')
-	  }
+      const response = await fetch(url, requestConfig)
+      const responseJson = await response.json()
       return responseJson
     } catch (error) {
       throw new Error(error)
-	  }
+    }
   } else {
     return new Promise((resolve, reject) => {
       let requestObj
-	  if (window.XMLHttpRequest) {
-	      requestObj = new XMLHttpRequest()
+      if (window.XMLHttpRequest) {
+        requestObj = new XMLHttpRequest()
+        requestObj.withCredentials = true
+        console.log('@-------------------withCredentials:')
       } else {
-		    requestObj = new ActiveXObject()
+        requestObj = new ActiveXObject()
       }
+
       let sendData = ''
-	  	if (type === 'POST') {
-        sendData = data instanceof FormData ? data : JSON.stringify(data)
+      if (type == 'POST') {
+        sendData = JSON.stringify(data)
       }
+
       requestObj.open(type, url, true)
-      !(data instanceof FormData) && requestObj.setRequestHeader('Content-Type', 'application/json')
+      requestObj.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+      requestObj.setRequestHeader('Cookie', 'cookie')
       requestObj.send(sendData)
+
       requestObj.onreadystatechange = () => {
-        if (requestObj.readyState === 4) {
-				  	if (requestObj.status === 200) {
+        if (requestObj.readyState == 4) {
+          if (requestObj.status == 200) {
             let obj = requestObj.response
-					  if (typeof obj !== 'object') {
-						 	obj = JSON.parse(obj)
-						 }
-					 	resolve(obj)
-					 } else {
-					 	reject(requestObj)
-				 	}
-			 	}
-		 	}
-		 })
-	 }
+            if (typeof obj !== 'object') {
+              obj = JSON.parse(obj)
+            }
+            resolve(obj)
+          } else {
+            reject(requestObj)
+          }
+        }
+      }
+    })
+  }
 }
