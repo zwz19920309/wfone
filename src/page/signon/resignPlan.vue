@@ -15,6 +15,15 @@
               >{{extraText.consumes[0][scope.row]}}</span>
             </template>
           </el-table-column>
+          <el-table-column label="详情">
+            <template slot-scope="scope">
+              <span
+                class="detail"
+                v-if="extraText.consumes && extraText.consumes.length"
+                @click="toSignonPrizeList(scope.$index, scope.row)"
+              >消耗明细</span>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button
@@ -22,19 +31,9 @@
                 size="mini"
                 @click="openPrizeList(scope.$index, scope.row, 1)"
               >添加</el-button>
-              <el-button
-                type="danger"
-                size="mini"
-                @click="openPrizeList(scope.$index, scope.row, 2)"
-              >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div>
-      <div class="pad10">
-        <el-button type="primary" @click="submit">确认提交</el-button>
       </div>
     </div>
     <prize-list-dialog
@@ -45,14 +44,30 @@
       :prizeList="prizeList"
       ref="prizeListRef"
     ></prize-list-dialog>
+    <div>
+      <div class="pad10">
+        <el-dialog title="奖品数量" :visible.sync="numDialogShow" append-to-body>
+          <el-form :inline="true" class="demo-form-inline">
+            <el-input v-model="prizeNum" placeholder="请输入奖品数量"></el-input>
+          </el-form>
+          <div class="pad10 t-right">
+            <el-button type="primary" @click="AddConsumes">确认</el-button>
+          </div>
+        </el-dialog>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { getSignonById, getConsumesBySignonById, bulkAddConsumes, bulkDeleteConsumes } from '@/api/getData'
+import { getSignonById, getPrizeList, getConsumesBySignonById, bulkAddConsumes, bulkDeleteConsumes } from '@/api/getData'
 export default {
   data() {
     return {
+      numDialogShow: false,
+      prizeNum: 1,
+      prize: '',
+      platformId: '',
       isEdit: true,
       total: 0,
       signOnId: 0,
@@ -66,6 +81,7 @@ export default {
     'prize-list-dialog': () => import('@/components/prizeListDialog.vue')
   },
   created() {
+    this.platformId = this.$route.query.platformId
     this.signOnId = this.$route.query.id
     this.initData({})
   },
@@ -73,20 +89,12 @@ export default {
     async initData() {
       let res = await getSignonById({ id: this.signOnId })
       if (res.status === 200) {
-        this.resignDates = res.data.extra_text.resign.resignDates
+        this.resignDates = res.data.extra_text.resign.resign_dates
         this.extraText = res.data.extra_text
-        console.log('extraText: ', this.extraText)
-        console.log('@resignDates: ', this.resignDates)
       }
     },
-    async submit() {
-      let res = await getSignonById({ id: 31 })
-      if (res.status === 200) {
-        this.$message({ message: '添加成功', type: 'success' })
-      }
-    },
-    async getConsumesBySignon(params) {
-      let res = await getConsumesBySignonById(params)
+    async getPrizeList(params) {
+      let res = await getPrizeList(params)
       if (res.status === 200) {
         if (!res.data.list || res.data.list.length < 1) {
           return false
@@ -100,51 +108,32 @@ export default {
       this.type = type
       this.reDate = row
       this.pageInfo = { page: 1, pageSize: 10 }
-      let res = await this.getConsumesBySignon({ id: this.signOnId, type: this.type, date: row })
+      // let res = await this.getConsumesBySignon({ id: this.signOnId, type: this.type, date: row, pid: this.platformId })
+      let res = await this.getPrizeList({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: this.platformId })
       if (!res.data || !res.data.list.length) {
-        this.type === 1 ? this.$message.error('暂无新奖品') : this.$message.error('未配置奖品')
+        this.$message.error('暂无新奖品');
         return
       }
       let that = this
-      let changePrams = {
-        btn_text: '添加',
-        m_btn_text: '批量添加',
-        type: 'primary'
-      }
-      if (this.type === 2) {
-        changePrams = {
-          btn_text: '删除',
-          m_btn_text: '批量删除',
-          type: 'danger'
-        }
-      }
       let params = {
         actionbutton: [
-          { label: changePrams.btn_text, type: changePrams.type, size: 'mini', action: async function (row) { that.AddConsumes(row) } }
-        ],
-        bluckActionbutton: [
-          { label: changePrams.m_btn_text, type: changePrams.type, size: 'mini', action: async function (data) { that.AddConsumes(data) } }
+          { label: '添加', type: 'primary', size: 'mini', action: async function (row) { that.handlePrize(row) } }
         ]
       }
       this.$refs.prizeListRef.open(params)
     },
-    async AddConsumes(row) {
-      let prizeIds = []
-      if (row instanceof Array) {
-        row.forEach(ele => {
-          prizeIds.push(ele.id)
-        })
-      } else {
-        prizeIds.push(row.id)
-      }
+    handlePrize(row) {
+      this.numDialogShow = true
+      this.prize = row
+    },
+    async AddConsumes() {
       let res
       if (this.type === 1) {
-        res = await bulkAddConsumes({ id: this.signOnId, prizeIds: prizeIds, date: this.reDate, type: 1 })
-      } else {
-        res = await bulkDeleteConsumes({ id: this.signOnId, prizeIds: prizeIds, date: this.reDate, type: 1 })
+        res = await bulkAddConsumes({ id: this.signOnId, prid: this.prize.id, pnum: this.prizeNum, date: this.reDate })
       }
       if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
+        this.numDialogShow = false
         this.$refs.prizeListRef.close()
         this.initData()
       } else {
@@ -156,6 +145,9 @@ export default {
     },
     async handleCurrentChange(data) {
       this.pageInfo.page = data
+    },
+    toSignonPrizeList(index, row) {
+      this.$router.push({ path: '/signonConsumesList', query: { signonId: this.signOnId, date: row } })
     }
   }
 }

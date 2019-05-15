@@ -135,30 +135,8 @@ export default {
       }
     },
     async handleSignOnPrize(row) {
-      console.log('@row: ', row)
       this.numDialogShow = true
       this.sizeOnPrize = row
-      // let prizeIds = []
-      // if (row instanceof Array) {
-      //   row.forEach(ele => {
-      //     prizeIds.push(ele.id)
-      //   })
-      // } else {
-      //   prizeIds.push(row.id)
-      // }
-      // let res = {}
-      // if (this.type === 1) {
-      //   res = await signonBulkAddPrizes({ id: this.signon.id, prizeIds: prizeIds, number: this.prize.index, type: this.type })
-      // } else {
-      //   res = await signonBulkDeletePrizes({ id: this.signon.id, prizeIds: prizeIds, number: this.prize.index, type: this.type })
-      // }
-      // if (res.status === 200) {
-      //   this.$message({ message: '操作成功', type: 'success' })
-      //   this.$refs.prizeListRef.close()
-      //   this.initData(this.sceneId)
-      // } else {
-      //   this.$message.error('操作失败')
-      // }
     },
     async getPrizesBySignon() {
       let res = await getPrizeList({ id: this.signon.id, number: this.prize.index, type: this.type, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: this.platformId })
@@ -209,7 +187,7 @@ export default {
     },
     toSignonPrizeList(index, row) {
       this.$router.push({ path: '/signonPrizeList', query: { signonId: this.signon.id, number: row.index } })
-    },
+    }
   }
 }
 </script>

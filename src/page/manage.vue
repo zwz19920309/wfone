@@ -9,9 +9,9 @@
           router
           @select="goToPath"
         >
-          <el-menu-item index="manage">
+          <!-- <el-menu-item index="manage">
             <i class="el-icon-menu"></i>首页
-          </el-menu-item>
+          </el-menu-item>-->
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-menu"></i>
@@ -29,50 +29,6 @@
               <span slot="title">新建</span>
             </el-menu-item>
           </el-submenu>
-
-          <!-- <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-plus"></i>设置
-            </template>
-            <el-menu-item index="settings">
-              <i class="el-icon-edit"></i>补签设置
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-plus"></i>应用管理
-            </template>
-            <el-menu-item index="sceneList">
-              <i class="el-icon-tickets"></i>应用列表
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-plus"></i>签到活动模板管理
-            </template>
-            <el-menu-item index="signonList">
-              <i class="el-icon-tickets"></i>模板活动列表
-            </el-menu-item>
-            <el-menu-item index="buildSignon">
-              <i class="el-icon-edit"></i>新建活动模板
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-plus"></i>奖品管理
-            </template>
-            <el-menu-item index="awardList">
-              <i class="el-icon-tickets"></i>奖品列表
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-plus"></i>奖励管理
-            </template>
-            <el-menu-item index="awardRecordList">
-              <i class="el-icon-tickets"></i>奖励记录
-            </el-menu-item>
-          </el-submenu>-->
         </el-menu>
       </el-col>
       <el-col :span="20" style="height: 100%;overflow: auto;">

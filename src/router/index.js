@@ -14,6 +14,8 @@ const resignPlan = r => require.ensure([], () => r(require('@/page/signon/resign
 const awardList = r => require.ensure([], () => r(require('@/page/signon/awardList')), 'awardList')
 const awardRecordList = r => require.ensure([], () => r(require('@/page/signon/awardRecordList')), 'awardRecordList')
 const signonPrizeList = r => require.ensure([], () => r(require('@/page/signon/signonPrizeList')), 'signonPrizeList')
+const signonConsumesList = r => require.ensure([], () => r(require('@/page/signon/signonConsumesList')), 'signonConsumesList')
+
 const platform = r => require.ensure([], () => r(require('@/page/signon/platform')), 'platform')
 export default new Router({
   routes: [
@@ -73,6 +75,11 @@ export default new Router({
       {
         path: '/signonPrizeList',
         component: signonPrizeList,
+        meta: []
+      },
+      {
+        path: '/signonConsumesList',
+        component: signonConsumesList,
         meta: []
       },
       {

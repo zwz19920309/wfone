@@ -80,7 +80,7 @@ export default {
       this.cPrizeList = newVal
     },
     total: function (newVal, oldVal) {
-      // this.cTotal = newVal
+      this.cTotal = newVal
     }
   }
 }

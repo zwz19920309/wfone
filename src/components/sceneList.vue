@@ -11,8 +11,8 @@
       <!-- <el-table-column prop="id" label="应用id" width="80"></el-table-column> -->
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
       <el-table-column prop="note" label="描述"></el-table-column>
-      <el-table-column prop="app_id" label="应用appid" width="180"></el-table-column>
-      <el-table-column prop="app_secret" label="应用appsecret" width="180"></el-table-column>
+      <el-table-column prop="app_id" label="应用appid"></el-table-column>
+      <el-table-column prop="app_secret" label="应用appsecret"></el-table-column>
       <!-- <el-table-column prop="start_at" :formatter="dateFormat" label="开始时间"></el-table-column>
       <el-table-column prop="end_at" :formatter="dateFormat" label="结束时间"></el-table-column>-->
       <el-table-column label="详情">
@@ -78,7 +78,6 @@ export default {
     }
   },
   created() {
-    console.log('@s')
   },
   methods: {
     async func(func, data) {
