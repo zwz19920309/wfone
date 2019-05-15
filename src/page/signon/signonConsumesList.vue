@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getConsumesBySignonById, signonBulkDeletePrizes } from '@/api/getData'
+import { getConsumesBySignonById, signonBulkDeletePrizes, bulkDeleteConsumes } from '@/api/getData'
 export default {
   data() {
     return {
@@ -65,10 +65,10 @@ export default {
     },
     async DeletePrizes(index, row) {
       console.log('row: ', row)
-      let res = await signonBulkDeletePrizes({ id: this.signonId, number: this.number, prizeIds: [row.prize.id] })
+      let res = await bulkDeleteConsumes({ id: this.signonId, date: this.date, prizeIds: [row.prize_id] })
       if (res.status === 200) {
         this.$message({ message: '删除成功', type: 'success' })
-        this.initData({ id: this.signonId, number: this.number })
+        this.initData({ id: this.signonId, date: this.date })
       }
     }
   }
