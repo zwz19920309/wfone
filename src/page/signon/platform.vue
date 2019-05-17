@@ -2,6 +2,12 @@
   <div class="fillcontain">
     <div class="mar10">
       <div class="mar10">
+        <h3>平台管理</h3>
+      </div>
+      <div class="mar10">
+        <platform-list :callBack="initData" :isEdit="isEdit" :platFormList="platFormList"></platform-list>
+      </div>
+      <div class="mar10">
         <h3>新建平台</h3>
       </div>
       <div class="pad10">
@@ -19,16 +25,31 @@
 </template>
 
 <script>
-import { addPlatForm } from '@/api/getData'
+import { addPlatForm, getPlatFormList } from '@/api/getData'
 export default {
   data() {
     return {
-      platform: { name: '' }
+      isEdit: true,
+      platform: { name: '' },
+      platFormList: []
     }
   },
+  components: {
+    'platform-list': () => import('@/components/platFormList.vue'),
+  },
+  created() {
+    this.initData({})
+  },
   methods: {
+    async initData(params) {
+      let res = await getPlatFormList({})
+      if ((res.status === 200)) {
+        this.platFormList = res.data.list
+        console.log('@platFormList:', this.platFormList)
+      }
+    },
     async submit() {
-      let res = await addPlatForm({ name: this.platform.name })
+      let res = await addPlatForm({ name: '' })
       if (res.status === 200) {
         this.$message({ message: '操作成功', type: 'success' })
       } else {

@@ -173,3 +173,7 @@ export const getPlatFormList = data => fetch('/admin/platform/getPlatFormList', 
 *添加平台
 */
 export const addPlatForm = data => fetch('/admin/platform/addPlatForm', data, 'POST')
+/** 
+*修改平台
+*/
+export const updatePlatForm = data => fetch('/admin/platform/updatePlatForm', data, 'POST')
