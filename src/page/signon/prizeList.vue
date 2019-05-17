@@ -63,7 +63,7 @@
 
 <script>
 import { DATETYPEVALUE } from '@/common/common'
-import { getSignonById, getPrizeList, signonBulkAddPrizes, signonBulkDeletePrizes, getPrizesBySignonById } from '@/api/getData'
+import { getSignonById, getPrizeList, signonBulkAddPrizes } from '@/api/getData'
 export default {
   data() {
     return {
@@ -149,35 +149,19 @@ export default {
       }
       return res
     },
-    async openDeletePrizeList(index, row) {
-      this.prize = row
-      let res = await getPrizesBySignonById({ id: this.signon.id, number: this.prize.index, page: this.pageInfo.page, pageSize: this.pageInfo.pageSize })
-    },
     async openPrizeList(index, row, type) {
       this.type = type
       this.prize = row
       this.pageInfo = { page: 1, pageSize: 5 }
       let res = await this.getPrizesBySignon()
-      // if (!res) {
-      //   this.type === 1 ? this.$message.error('暂无新奖品') : this.$message.error('未配置奖品')
-      //   return
-      // }
+      if (!res) {
+        this.$message.error('暂无新奖品')
+        return
+      }
       let that = this
-      let changePrams = {
-        btn_text: '添加',
-        m_btn_text: '批量添加',
-        type: 'primary'
-      }
-      if (this.type === 2) {
-        changePrams = {
-          btn_text: '删除',
-          m_btn_text: '批量删除',
-          type: 'danger'
-        }
-      }
       let params = {
         actionbutton: [
-          { label: changePrams.btn_text, type: changePrams.type, size: 'mini', action: async function (row) { that.handleSignOnPrize(row) } }
+          { label: '添加', type: 'primary', size: 'mini', action: async function (row) { that.handleSignOnPrize(row) } }
         ],
         bluckActionbutton: [
           // { label: changePrams.m_btn_text, type: changePrams.type, size: 'mini', action: async function (data) { that.handleSignOnPrize(data) } }

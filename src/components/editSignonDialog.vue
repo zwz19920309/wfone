@@ -113,7 +113,6 @@
 </template>
 
 <script>
-import { DATETYPEVALUE } from '@/common/common'
 import { getResignFormList } from '@/api/getData'
 export default {
   components: {
@@ -168,7 +167,7 @@ export default {
       this.cSignon.checkinype = data.type
       this.cSignon.datetype = ''
     },
-    changeDateType(data) {// 日期类型
+    changeDateType(data) { // 日期类型
       this.cSignon.datetype = data.type
     },
     submit() {
@@ -216,10 +215,6 @@ export default {
           this.calendarObj.select(arr)
         }
       }
-      // this.cSignon.isResign = newVal.extra_text && newVal.extra_text.resign && newVal.extra_text.resign.isResign ? newVal.extra_text.resign.isResign : 1
-      // this.cSignon.cost = newVal.extra_text && newVal.extra_text.resign && newVal.extra_text.resign.cost ? newVal.extra_text.resign.cost : 1
-      // this.cSignon.formId = newVal.extra_text && newVal.extra_text.resign && newVal.extra_text.formId ? newVal.extra_text.resign.formId : 1
-      //}
     }
   }
 }

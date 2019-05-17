@@ -150,11 +150,12 @@ export default {
       func && func(data)
     },
     async handleEdit(row) {
-      console.log('@:this.row: ', row)
       this.signon = {
-        name: row.name, rule_desc: row.rule_desc, checkinype: row.checktypetype,
+        name: row.name,
+        rule_desc: row.rule_desc,
+        checkinype: row.checktypetype,
         datetype: row.cycle_text.type,
-        cycleNum: row.cycle_text.number || DATETYPEVALUE[row.cycle_text.type],
+        cycleNum: row.cycle_text.number,
         id: row.id,
         isResign: (row.extra_text && row.extra_text.resign && row.extra_text.resign.resign) ? row.extra_text.resign.resign : 0,
         cost: (row.extra_text && row.extra_text.resign && row.extra_text.resign.cost) ? row.extra_text.resign.cost : 1,

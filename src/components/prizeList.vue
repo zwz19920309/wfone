@@ -107,10 +107,10 @@ export default {
         this.$message({ message: '请完善信息', type: 'warning' })
         return
       }
-      let fileData = new FormData();
-      fileData.append('pid', this.cPid);
-      fileData.append('name', data.name);
-      fileData.append('note', data.note);
+      let fileData = new FormData()
+      fileData.append('pid', this.cPid)
+      fileData.append('name', data.name)
+      fileData.append('note', data.note)
       data.icon ? (fileData.append('icon', data.icon)) : ''
       let res = await addPrize(fileData)
       if (res.status === 200) {

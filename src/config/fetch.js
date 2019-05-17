@@ -1,43 +1,44 @@
-import {
-  baseUrl
-} from './env'
+import { baseUrl } from './env'
+import router from '@/router'
 
 export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase()
   url = baseUrl + url
-
   if (type === 'GET') {
     let dataStr = '' // 数据拼接字符串
     Object.keys(data).forEach(key => {
       dataStr += key + '=' + data[key] + '&'
     })
-
     if (dataStr !== '') {
       dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'))
       url = url + '?' + dataStr
     }
   }
-
   if (window.fetch && method === 'fetch') {
+    let jwt = localStorage.getItem('jwt')
     let requestConfig = {
       credentials: 'include',
       method: type,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json'
       },
       mode: 'cors',
       cache: 'force-cache'
     }
+    !(data instanceof FormData) && (requestConfig.headers['Content-Type'] = 'application/json')
+    jwt && (requestConfig.headers['Authorization'] = `Bearer ${jwt}`)
     if (type === 'POST') {
       Object.defineProperty(requestConfig, 'body', {
-        value: JSON.stringify(data)
+        value: data instanceof FormData ? data : JSON.stringify(data)
       })
     }
-
     try {
       const response = await fetch(url, requestConfig)
       const responseJson = await response.json()
+      if (responseJson.code === 20) {
+        console.log('tokem 超时')
+        router.push('/')
+      }
       return responseJson
     } catch (error) {
       throw new Error(error)
@@ -50,16 +51,13 @@ export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
       } else {
         requestObj = new ActiveXObject()
       }
-
       let sendData = ''
       if (type === 'POST') {
-        sendData = JSON.stringify(data)
+        sendData = data instanceof FormData ? data : JSON.stringify(data)
       }
-
       requestObj.open(type, url, true)
-      requestObj.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+      !(data instanceof FormData) && requestObj.setRequestHeader('Content-Type', 'application/json')
       requestObj.send(sendData)
-
       requestObj.onreadystatechange = () => {
         if (requestObj.readyState === 4) {
           if (requestObj.status === 200) {

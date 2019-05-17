@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getConsumesBySignonById, signonBulkDeletePrizes, bulkDeleteConsumes } from '@/api/getData'
+import { getConsumesBySignonById, bulkDeleteConsumes } from '@/api/getData'
 export default {
   data() {
     return {

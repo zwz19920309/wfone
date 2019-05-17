@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getPrizeList, getPrizesBySignonById, signonBulkDeletePrizes } from '@/api/getData'
+import { getPrizesBySignonById, signonBulkDeletePrizes } from '@/api/getData'
 export default {
   data() {
     return {

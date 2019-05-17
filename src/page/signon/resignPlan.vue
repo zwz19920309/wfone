@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { getSignonById, getPrizeList, getConsumesBySignonById, bulkAddConsumes, bulkDeleteConsumes } from '@/api/getData'
+import { getSignonById, getPrizeList, bulkAddConsumes } from '@/api/getData'
 export default {
   data() {
     return {
@@ -111,7 +111,7 @@ export default {
       // let res = await this.getConsumesBySignon({ id: this.signOnId, type: this.type, date: row, pid: this.platformId })
       let res = await this.getPrizeList({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: this.platformId })
       if (!res.data || !res.data.list.length) {
-        this.$message.error('暂无新奖品');
+        this.$message.error('暂无新奖品')
         return
       }
       let that = this

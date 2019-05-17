@@ -76,8 +76,8 @@ export default {
         sceneId: '',
         qUid: '',
         qSecenId: '',
-        qAppId: 'QycKxxnmqsVXfVQCplti',
-        qAppSecret: '40b11275788252ca5a9d44c0142f382f',
+        qAppId: '',
+        qAppSecret: '',
         reuid: '',
         reSceneId: '',
         reSignDate: ''
@@ -109,11 +109,11 @@ export default {
     },
     async handleSizeChange(data) {
       this.pageInfo.pageSize = data
-      await this.initData(this.pageInfo)
+      await this.initData({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: this.platformId })
     },
     async handleCurrentChange(data) {
       this.pageInfo.page = data
-      await this.initData(this.pageInfo)
+      await this.initData({ page: this.pageInfo.page, pageSize: this.pageInfo.pageSize, pid: this.platformId })
     },
     async onSubmit() {
       console.log('@onSubmit')
